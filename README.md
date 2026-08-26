@@ -33,6 +33,33 @@ Each phase has **plays** (repeatable workflows) + **principles** (decision lense
 
 ---
 
+## Get Started
+
+**Clone or copy plays into your project:**
+
+```bash
+# Option 1: Clone the repo
+git clone https://github.com/tallboy/plays.git
+
+# Option 2: Copy skills into your project
+cp -r plays/plays/meta/tallboy-mode .claude/skills/
+cp -r plays/plays/principles .claude/skills/
+# Then copy any phase plays you need:
+cp -r plays/plays/build/incremental-implementation .claude/skills/
+cp -r plays/plays/verify/debugging-error-recovery .claude/skills/
+```
+
+**Load a play:**
+
+```markdown
+# In your CLAUDE.md, .cursorrules, or chat:
+@plays/meta/tallboy-mode/SKILL.md
+@plays/principles/principle-prove-it-works/SKILL.md
+@plays/build/incremental-implementation/SKILL.md
+```
+
+---
+
 ## Quick Start: Pick Your Play
 
 **I'm starting fresh:**
@@ -79,15 +106,18 @@ Each phase has **plays** (repeatable workflows) + **principles** (decision lense
 Every play rests on principles. Read one when you need clarity:
 
 **Core (always relevant):**
-- 🦾 **Laziness Protocol** — Delete first, smallest change wins (Shawn Kemp)
-- 🏗️ **Foundational Thinking** — Architecture before code (Larry Bird)
-- 🎯 **Minimize Reader Load** — Keep heads out of clouds (Magic)
-- ✅ **Prove It Works** — Test on real artifacts (MJ)
+- **Laziness Protocol** — Delete first, smallest change wins
+- **Foundational Thinking** — Architecture before code
+- **Minimize Reader Load** — Keep cognitive load low
+- **Prove It Works** — Test on real artifacts, not proxies
 
 **When stuck:**
 ```
 @plays/principles/principle-<name>/SKILL.md
 ```
+
+**All 21 principles:**
+boundary-discipline, build-the-lever, encode-lessons-in-structure, exhaust-the-design-space, experience-first, fix-root-causes, foundational-thinking, guard-the-context-window, laziness-protocol, make-operations-idempotent, migrate-callers-then-delete-legacy, minimize-reader-load, model-the-domain, never-block-on-the-human, outcome-oriented-execution, prove-it-works, redesign-from-first-principles, separate-before-serializing-shared-state, sequence-verifiable-units, subtract-before-you-add, type-system-discipline
 
 Full principles guide: `@plays/principles/README.md`
 
