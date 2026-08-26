@@ -1,8 +1,8 @@
-# Skills
+# Plays
 
-Modular software engineering skills for AI coding assistants. Load 2-3 into your `CLAUDE.md`, `.cursorrules`, or chat prompt to give your AI agent explicit process guidance.
+Modular software engineering plays for AI coding assistants. Load 2-3 into your `CLAUDE.md`, `.cursorrules`, or chat prompt to give your AI agent explicit process guidance.
 
-Each skill follows the [AgentSkills.io](https://agentskills.io/specification) spec: a directory with `SKILL.md` (~800 tokens) and optional `references/` for deep-dive material.
+Each play follows the [AgentSkills.io](https://agentskills.io/specification) spec: a directory with `SKILL.md` (~800 tokens) and optional `references/` for deep-dive material.
 
 ---
 
@@ -10,62 +10,62 @@ Each skill follows the [AgentSkills.io](https://agentskills.io/specification) sp
 
 ```markdown
 # In AGENTS.md, CLAUDE.md, or .cursorrules — load what you need:
-@skills/define/planning-and-task-breakdown/SKILL.md
-@skills/build/incremental-implementation/SKILL.md
-@skills/verify/test-driven-development/SKILL.md
+@plays/define/planning-and-task-breakdown/SKILL.md
+@plays/build/incremental-implementation/SKILL.md
+@plays/verify/test-driven-development/SKILL.md
 ```
 
-Or copy a skill into your project:
+Or copy a play into your project:
 
 ```bash
-cp -r skills/build/incremental-implementation/ .claude/skills/
+cp -r plays/build/incremental-implementation/ .claude/skills/
 ```
 
 ---
 
-## Skills
+## Plays
 
 ### Define — Clarity before code
 
-| Skill | Use when... |
-|-------|-------------|
-| [idea-refinement](skills/define/idea-refinement/SKILL.md) | Requirements are vague, stakeholders misaligned |
-| [planning-and-task-breakdown](skills/define/planning-and-task-breakdown/SKILL.md) | Breaking work into trackable steps |
-| [spec-driven-development](skills/define/spec-driven-development/SKILL.md) | New features, breaking changes, architecture shifts |
+| Play | Use when... |
+|------|-------------|
+| [idea-refinement](plays/define/idea-refinement/SKILL.md) | Requirements are vague, stakeholders misaligned |
+| [planning-and-task-breakdown](plays/define/planning-and-task-breakdown/SKILL.md) | Breaking work into trackable steps |
+| [spec-driven-development](plays/define/spec-driven-development/SKILL.md) | New features, breaking changes, architecture shifts |
 
 ### Build — Quality implementation
 
-| Skill | Use when... |
-|-------|-------------|
-| [incremental-implementation](skills/build/incremental-implementation/SKILL.md) | Default approach — one step, one commit |
-| [context-engineering](skills/build/context-engineering/SKILL.md) | Setting up AGENTS.md, project context for AI |
-| [frontend-ui-engineering](skills/build/frontend-ui-engineering/SKILL.md) | Building UI components and pages |
-| [api-and-interface-design](skills/build/api-and-interface-design/SKILL.md) | Designing APIs, contracts, interfaces |
+| Play | Use when... |
+|------|-------------|
+| [incremental-implementation](plays/build/incremental-implementation/SKILL.md) | Default approach — one step, one commit |
+| [context-engineering](plays/build/context-engineering/SKILL.md) | Setting up AGENTS.md, project context for AI |
+| [frontend-ui-engineering](plays/build/frontend-ui-engineering/SKILL.md) | Building UI components and pages |
+| [api-and-interface-design](plays/build/api-and-interface-design/SKILL.md) | Designing APIs, contracts, interfaces |
 
 ### Verify — Prove correctness
 
-| Skill | Use when... |
-|-------|-------------|
-| [test-driven-development](skills/verify/test-driven-development/SKILL.md) | Writing tests first (red-green-refactor) |
-| [debugging-error-recovery](skills/verify/debugging-error-recovery/SKILL.md) | Investigating and fixing bugs |
-| [browser-testing-devtools](skills/verify/browser-testing-devtools/SKILL.md) | E2E testing, DevTools debugging |
+| Play | Use when... |
+|------|-------------|
+| [test-driven-development](plays/verify/test-driven-development/SKILL.md) | Writing tests first (red-green-refactor) |
+| [debugging-error-recovery](plays/verify/debugging-error-recovery/SKILL.md) | Investigating and fixing bugs |
+| [browser-testing-devtools](plays/verify/browser-testing-devtools/SKILL.md) | E2E testing, DevTools debugging |
 
 ### Review — Quality gates
 
-| Skill | Use when... |
-|-------|-------------|
-| [code-review-quality](skills/review/code-review-quality/SKILL.md) | Reviewing PRs (5-axis framework) |
-| [security-hardening](skills/review/security-hardening/SKILL.md) | Security audit, OWASP checks |
-| [performance-optimization](skills/review/performance-optimization/SKILL.md) | Profiling, bottleneck analysis |
+| Play | Use when... |
+|------|-------------|
+| [code-review-quality](plays/review/code-review-quality/SKILL.md) | Reviewing PRs (5-axis framework) |
+| [security-hardening](plays/review/security-hardening/SKILL.md) | Security audit, OWASP checks |
+| [performance-optimization](plays/review/performance-optimization/SKILL.md) | Profiling, bottleneck analysis |
 
 ### Ship — Deploy with confidence
 
-| Skill | Use when... |
-|-------|-------------|
-| [git-workflow-versioning](skills/ship/git-workflow-versioning/SKILL.md) | Branching, tagging, releases, changelogs |
-| [ci-cd-automation](skills/ship/ci-cd-automation/SKILL.md) | Pipeline setup, quality gates, deployment |
-| [documentation-adrs](skills/ship/documentation-adrs/SKILL.md) | Architecture Decision Records |
-| [shipping-launch](skills/ship/shipping-launch/SKILL.md) | Production readiness checklist |
+| Play | Use when... |
+|------|-------------|
+| [git-workflow-versioning](plays/ship/git-workflow-versioning/SKILL.md) | Branching, tagging, releases, changelogs |
+| [ci-cd-automation](plays/ship/ci-cd-automation/SKILL.md) | Pipeline setup, quality gates, deployment |
+| [documentation-adrs](plays/ship/documentation-adrs/SKILL.md) | Architecture Decision Records |
+| [shipping-launch](plays/ship/shipping-launch/SKILL.md) | Production readiness checklist |
 
 ---
 
@@ -84,11 +84,11 @@ cp -r skills/build/incremental-implementation/ .claude/skills/
 
 ## Reference Material
 
-Some skills include a `references/` directory with deep-dive content — load on demand when stuck or learning:
+Some plays include a `references/` directory with deep-dive content — load on demand when stuck or learning:
 
 ```markdown
-@skills/build/incremental-implementation/references/pitfalls.md    # When stuck
-@skills/verify/test-driven-development/references/examples.md      # When learning
+@plays/build/incremental-implementation/references/pitfalls.md    # When stuck
+@plays/verify/test-driven-development/references/examples.md      # When learning
 ```
 
 Reference types: `anti-rationalization.md` (why it matters), `pitfalls.md` (common mistakes), `examples.md` (walkthroughs), `advanced.md` (edge cases).
@@ -98,10 +98,10 @@ Reference types: `anti-rationalization.md` (why it matters), `pitfalls.md` (comm
 ## Directory Structure
 
 ```
-skills/
+plays/
 ├── README.md
-└── skills/<phase>/<skill-name>/
-    ├── SKILL.md              # Loadable skill (~800 tokens)
+└── plays/<phase>/<play-name>/
+    ├── SKILL.md              # Loadable play (~800 tokens)
     └── references/           # Optional deep-dive material
         ├── anti-rationalization.md
         ├── pitfalls.md
