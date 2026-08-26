@@ -123,19 +123,19 @@ Before you're done:
 
 ## The 21 Principles: Your Playbook
 
-Think of these as the 21 fundamental basketball truths:
+Think of these as the 21 fundamental coaching rules:
 
-**Core Moves (never miss these):**
-- **Laziness Protocol** — Delete first. Shortest path wins. (Kemp charging downhill: no wasted movement.)
-- **Foundational Thinking** — Architecture before code. Get the model right. (Bird's footwork: foundation is everything.)
-- **Minimize Reader Load** — Keep heads out of clouds. Tight code, tight prose. (Magic's crisp passes.)
-- **Prove It Works** — Test on real artifacts. No simulators. (MJ in the Finals, not the gym.)
+**Core Plays (never miss these):**
+- **Laziness Protocol** — Delete first. Shortest path wins.
+- **Foundational Thinking** — Architecture before code. Get the model right.
+- **Minimize Reader Load** — Keep cognitive load low. Tight code, tight prose.
+- **Prove It Works** — Test on real artifacts. No simulators.
 
 **By Phase:**
 - **Define:** Exhaust the design space (2-3 prototypes, not one)
 - **Build:** Model the domain (encode business logic in type)
 - **Verify:** Fix root causes (don't patch symptoms)
-- **Ship:** Migrate callers then delete legacy (no compat shims cluttering the court)
+- **Ship:** Migrate callers then delete legacy (no compatibility cruft)
 
 ---
 

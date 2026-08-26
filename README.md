@@ -1,6 +1,6 @@
 # 🏀 Plays: Run the Game
 
-**Basketball-style engineering plays.** Repeatable, tactical, proven. Get on the court and execute.
+**Basketball-style engineering plays.** Repeatable sequences. Full-court precision. Know your role, execute your play.
 
 ```
 Situation: "I don't know where to start"
@@ -9,16 +9,13 @@ Your move: Run /tallboy-mode
 
 ---
 
-## You Are the Playground
+## The Philosophy
 
-| Who You Are | Your Setup |
-|---|---|
-| 🐐 **The Closer** (MJ era) | Execution-focused. You ship. You iterate. Deliver before perfect. |
-| 🧠 **The Orchestrator** (Magic era) | Court vision. You architect first, then execute. Team player. |
-| 🔨 **The Fundamentalist** (Bird era) | Precision over flash. Textbook execution. Zero wasted motion. |
-| ⚡ **The Power Move** (Kemp era) | Raw energy, straight line to the goal. Full-speed execution. |
+You're not trying to be one person doing everything. You're trying to be the right player at the right moment.
 
-**This playbook works for all four.** Pick your phase, run the play, stay sharp.
+Sometimes you're the scorer. Sometimes you're the point guard reading the court. Sometimes you're the defender keeping bad code out. Sometimes you're the rebounder cleaning up chaos.
+
+**The play tells you which one.**
 
 ---
 
@@ -175,17 +172,6 @@ plays/
 Each play is ~800 tokens. Designed for one focused session. One phase complete.
 
 Stack plays across sessions. Design → Build → Verify → Review → Ship.
-
----
-
-## Basketball References
-
-- 🐐 **Michael Jordan** — Clutch execution, never giving up, proving it in the Finals
-- 🧠 **Magic Johnson** — Court vision, orchestration, seeing the whole game
-- 🏹 **Larry Bird** — Textbook fundamentals, precision, killer instinct
-- ⚡ **Shawn Kemp** — Raw power, straight line to the goal, full-speed execution
-
-This playbook borrows from all four. Pick your style, run the play, stay sharp.
 
 ---
 
