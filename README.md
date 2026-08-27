@@ -4,13 +4,13 @@ A lightweight, chainable suite of engineering skills for producing **verifiable 
 
 Three layers:
 
-1. **A router** (`tallboy-mode`) that matches the task to a playbook and turns the playbook's steps into the session's todo list — verbatim, with skips visible.
+1. **A router** (`go-tallboy`) that matches the task to a playbook and turns the playbook's steps into the session's todo list — verbatim, with skips visible.
 2. **Principles** — 14 decision lenses, loaded only when applied. The router carries a one-line index; each leaf is read on use.
 3. **Workhorse skills** — verification, adversarial review, design bakeoffs, and prose discipline, each invokable on its own or chained by the router.
 
 ```
 plays/
-├── tallboy-mode/         The router: triggers, principle index, playbook table
+├── go-tallboy/         The router: triggers, principle index, playbook table
 │   └── playbooks/        investigation · bug-fix · feature · refactor ·
 │                         prototype · eval · ship · figure-it-out
 ├── principles/           14 leaves, each a one-idea skill
@@ -31,13 +31,13 @@ Copy what you need into a project's skills directory:
 # The router (playbooks come with it) and the principles
 # Principles copy individually — Claude Code discovers skills exactly one
 # directory deep, so a nested principles/ folder would never load.
-cp -r plays/tallboy-mode plays/principles/principle-* .claude/skills/
+cp -r plays/go-tallboy plays/principles/principle-* .claude/skills/
 
 # Individual skills as needed
 cp -r plays/verify-this plays/adversarial-review .claude/skills/
 ```
 
-Skills reference each other by name only, never by relative path, so any subset installs cleanly. Then invoke `/tallboy-mode` at the start of a task, or any skill directly.
+Skills reference each other by name only, never by relative path, so any subset installs cleanly. Then invoke `/go-tallboy` at the start of a task, or any skill directly.
 
 ## The contract that makes it work
 
@@ -53,7 +53,7 @@ Skills are the *soft* layer of enforcement — an agent can forget them. The sui
 
 ## Extending
 
-Add a playbook: one file in `tallboy-mode/playbooks/`, 15–35 lines, plus a one-line entry in the router's table naming what distinguishes it from its nearest neighbor. Add a principle: one leaf dir plus an index line in the router, written in "apply when…" form. Before promoting a change to any skill, run the Eval playbook — blinded, judged, compared against the current version.
+Add a playbook: one file in `go-tallboy/playbooks/`, 15–35 lines, plus a one-line entry in the router's table naming what distinguishes it from its nearest neighbor. Add a principle: one leaf dir plus an index line in the router, written in "apply when…" form. Before promoting a change to any skill, run the Eval playbook — blinded, judged, compared against the current version.
 
 ## Project layer
 

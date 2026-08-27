@@ -12,7 +12,7 @@ err() { echo "FAIL: $1"; fail=1; }
 #        name matches the dir, description is in trigger form.
 skill_dirs=$(find plays -mindepth 1 -maxdepth 2 -type d ! -name playbooks ! -name principles ! -path 'plays/principles' ; find plays/principles -mindepth 1 -maxdepth 1 -type d)
 for d in $skill_dirs; do
-  case "$d" in plays/tallboy-mode/playbooks) continue;; esac
+  case "$d" in plays/go-tallboy/playbooks) continue;; esac
   f="$d/SKILL.md"
   if [ ! -f "$f" ]; then err "$d has no SKILL.md"; continue; fi
   name=$(sed -n 's/^name: *//p' "$f" | head -1 | tr -d '"')
@@ -31,16 +31,16 @@ done
 #        skill exactly one directory deep (skills nested deeper never load).
 tmp=$(mktemp -d)
 mkdir -p "$tmp/skills"
-cp -r plays/tallboy-mode plays/principles/principle-* "$tmp/skills/"
+cp -r plays/go-tallboy plays/principles/principle-* "$tmp/skills/"
 cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena plays/unslop plays/epistemics "$tmp/skills/"
 for d in "$tmp/skills"/*/; do
   base=$(basename "$d")
-  [ "$base" = "tallboy-mode" ] && continue
+  [ "$base" = "go-tallboy" ] && continue
   [ -f "$d/SKILL.md" ] || err "installed skill '$base' has no SKILL.md one level deep — undiscoverable"
   nested=$(find "$d" -mindepth 2 -name SKILL.md | grep -v playbooks || true)
   [ -z "$nested" ] || err "installed skill '$base' hides nested SKILL.md files: $nested"
 done
-[ -f "$tmp/skills/tallboy-mode/SKILL.md" ] || err "router did not install"
+[ -f "$tmp/skills/go-tallboy/SKILL.md" ] || err "router did not install"
 rm -rf "$tmp"
 
 # --- 3. No relative markdown links (they break under copy-install).
@@ -48,21 +48,21 @@ links=$(grep -rn '](\.\./' plays/ || true)
 [ -z "$links" ] || err "relative links found (break when copied): $links"
 
 # --- 4. Every playbook the router names exists; every playbook file is named.
-for p in $(grep -o 'playbooks/[a-z-]*\.md' plays/tallboy-mode/SKILL.md | sort -u); do
-  [ -f "plays/tallboy-mode/$p" ] || err "router references missing $p"
+for p in $(grep -o 'playbooks/[a-z-]*\.md' plays/go-tallboy/SKILL.md | sort -u); do
+  [ -f "plays/go-tallboy/$p" ] || err "router references missing $p"
 done
-for f in plays/tallboy-mode/playbooks/*.md; do
+for f in plays/go-tallboy/playbooks/*.md; do
   b=$(basename "$f")
-  grep -q "playbooks/$b" plays/tallboy-mode/SKILL.md || err "$b exists but the router table never names it"
+  grep -q "playbooks/$b" plays/go-tallboy/SKILL.md || err "$b exists but the router table never names it"
 done
 
 # --- 5. Every principle the router indexes exists; every principle dir is indexed.
-for p in $(grep -oE 'principle-[a-z][a-z-]*' plays/tallboy-mode/SKILL.md | sort -u); do
+for p in $(grep -oE 'principle-[a-z][a-z-]*' plays/go-tallboy/SKILL.md | sort -u); do
   [ -d "plays/principles/$p" ] || err "router indexes missing principle dir: $p"
 done
 for d in plays/principles/principle-*/; do
   b=$(basename "$d")
-  grep -q "$b" plays/tallboy-mode/SKILL.md || err "$b exists but the router index never names it"
+  grep -q "$b" plays/go-tallboy/SKILL.md || err "$b exists but the router index never names it"
 done
 
 # --- 6. No placeholders; no fabricated-evidence tells.
