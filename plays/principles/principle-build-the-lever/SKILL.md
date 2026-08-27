@@ -1,57 +1,23 @@
 ---
 name: principle-build-the-lever
-description: "Build the tool that does the work, not the work by hand. Codemod, script, generator, or skill—ship the artifact that others can run."
-metadata:
-  phase: principle
-  pstack_ref: "build-the-lever"
-  version: "1.0.0"
+description: "Apply to any non-trivial work, not just bulk work: edits, migrations, analyses, checks. Build the tool that does it or proves it (codemod, script, generator, or a skill your subagents follow) instead of working by hand. The tool is the artifact a reviewer can rerun."
 ---
 
 # Build the Lever
 
-**The play:** Don't do bulk work by hand. Build the tool that does it. The tool is the artifact.
+When the work isn't trivial, build the tool that does it instead of doing it by hand.
 
-## When to Apply This
+**Why:** Two payoffs. Throughput: a codemod, generator, or script does the work the same way every time and reruns for free. Confidence: the tool is one artifact a reviewer can read and rerun to check the work. Hand-done changes can only be re-verified by redoing them. A deterministic script turns "trust me" into "run this".
 
-- ✅ Refactoring 50 files
-- ✅ Migrating data
-- ✅ Any repetitive work
-- ✅ Work that takes more than 2 iterations
+**Pattern:** Default to building the lever. Skip it only when the task is genuinely trivial — a couple of obvious edits you can see at a glance.
 
-## The Rule
+- Do the first unit by hand to learn the recipe, then build the tool. Prove it by rerunning it on that unit and diffing against your hand-done version. Make the lever safe to rerun. A reviewer will.
+- Codemod or script for edits, generator for repetitive files, a dump-to-sqlite query for analysis, a rerunnable check for verification.
+- A deterministic lever beats fan-out. If the tool can process every unit in one pass, run it yourself; don't fan out delegates to hand-apply what a script can do.
+- When you fan work out to subagents, write the lever as a skill they all read: the recipe, the verification contract, and the do-not-touch fences in one artifact, so every delegate inherits the same hardened version instead of re-explaining it per prompt and watching each one drift. Keep it outside the delegates' write scope so they can't quietly edit the contract.
+- Applying this principle produces a file. If you cited it and there is no codemod, script, generator, or delegate skill in the diff, you didn't apply it.
+- Commit the lever when the work outlives the session, so the next run reruns it instead of redoing it.
 
-**Automate it. The script/tool/codemod is the real deliverable, not the result.**
+**Balance:** The bar is triviality, not repetition. A one-off still earns a lever when the lever is what makes the work checkable. Per the laziness-protocol principle, build the smallest script that does or proves the job, never a framework.
 
-Not:
-- ✗ Manually fix 50 files
-- ✗ Manual data migration with notes
-- ✗ Hand-edits across the codebase
-
-Instead:
-- ✓ Write a codemod
-- ✓ Write a migration script
-- ✓ Write a generator
-- ✓ Run it. Commit both tool and results.
-
-## How
-
-### 1. Recognize the Pattern
-Same change 3+ times? Build a tool.
-
-### 2. Build the Tool
-Codemod, script, generator. Something runnable.
-
-### 3. Run It
-Once, consistently.
-
-### 4. Commit Both
-Tool + results. Reviewers can rerun the tool.
-
-## Examples
-
-**Bad:** Manually migrate 100 database records.
-**Good:** Write migration script. Run it. Commit script.
-
-## The Principle in One Sentence
-
-**Tools scale work. People don't.**
+Distinct from encode-lessons-in-structure, which makes a recurring instruction a durable guardrail. This is throughput and reviewability on the work in front of you.

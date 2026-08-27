@@ -1,73 +1,25 @@
 ---
 name: principle-model-the-domain
-description: "Encode domain logic in structure, not scattered conditionals. Let the model guide the code."
-metadata:
-  phase: principle
-  pstack_ref: "model-the-domain"
-  version: "1.0.0"
+description: "Apply when writing stateful logic, or when code branches a lot or repeats a shape assumption across files. Encode the domain in a structure instead of scattered conditionals."
 ---
 
 # Model the Domain
 
-**The play:** What does your domain actually look like? Not your code—the domain. Encode that shape in types. Then code writes itself.
+Encode the real domain in a data structure instead of scattering it across conditionals.
 
-## When to Apply This
+**Why:** Scattered booleans, repeated shape assumptions, and branching spread across files are accidental complexity. A structure that matches the domain makes invalid states unrepresentable and deletes branches. Choosing it at write time is cheap; recovering it later reads as a refactor and gets deferred.
 
-- ✅ Starting a new domain
-- ✅ When business logic is scattered
-- ✅ When conditionals keep multiplying
-- ✅ When you're unsure about the design
+**Reach for structures like these:**
 
-## The Rule
+- A state machine instead of scattered booleans, phases, or lifecycle checks.
+- A typed object/model instead of loose parameters or repeated shape assumptions.
+- A map, registry, lookup table, or discriminated union instead of branching spread across files.
+- A reducer or command/event model instead of ad hoc state mutations.
+- A module organized around one body of domain knowledge instead of a sequence such as load, validate, transform, and save. Execution order is not ownership.
+- A small module boundary that gathers repeated behavior, ownership, or invariants.
+- A queue, cache, index, graph/tree, or normalized collection where the data access pattern calls for it.
+- Any other structure that fits. The list above covers the common cases only. When none fits, work out what the code must never allow and how the data gets read, then find the structure that encodes exactly that.
 
-**The structure should encode domain rules, not conditionals.**
+Do not force an abstraction. Prefer boring code if the current shape is already clear, local, and unlikely to grow. Be skeptical of an abstraction that adds indirection without removing branches, duplicated rules, invalid states, or lifecycle risk.
 
-Not:
-- ✗ `if user.is_admin then... else if user.is_moderator then...`
-- ✗ `if order.status == "paid" and order.shipped == false then...`
-- ✗ Scattered if-statements representing domain knowledge
-
-Instead:
-- ✓ `UserRole: Admin | Moderator | User` (type encodes roles)
-- ✓ `OrderStatus: Pending | Paid | Shipped | Delivered` (type encodes states)
-- ✓ Code flows through the model
-
-## How
-
-### 1. Name Domain Entities
-What are the core concepts?
-- User, Payment, Order (ecommerce)
-- Finding, Verdict, Run (QA system)
-
-### 2. Model Their States
-What states can each entity be in?
-```
-Order: Pending → Paid → Shipped → Delivered → (returned?)
-User: NewSignup → Active → Suspended → Deleted
-```
-
-### 3. Encode in Types
-```
-class Order:
-    status: Enum[Pending, Paid, Shipped, Delivered]
-    # No: paid_on, shipped_on, delivered_on booleans scattered
-    # Yes: status captures it all
-```
-
-### 4. Code Flows from Model
-```
-match order.status:
-    Pending: charge_card()
-    Paid: ship_order()
-    Shipped: wait()
-    Delivered: send_thank_you()
-```
-
-## Examples
-
-**Bad:** Multiple booleans (is_paid, is_shipped, is_pending)
-**Good:** Single status enum
-
-## The Principle in One Sentence
-
-**Structure should encode rules. Conditionals should be minimal.**
+The tell that you skipped this is a new feature that grows an existing if/else chain by one more branch, or a second boolean that must stay in sync with the first. Temporal decomposition is another tell. Phase-named modules repeat the same domain rules across steps.

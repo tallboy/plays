@@ -1,223 +1,58 @@
-# 🏀 Plays: Run the Game
+# Plays
 
-**Basketball-style engineering plays.** Repeatable sequences. Full-court precision. Know your role, execute your play.
+A lightweight, chainable suite of engineering skills for producing **verifiable code output** from a model. Works on any repo. Designed to be extended.
 
-```
-Situation: "I don't know where to start"
-Your move: Run /tallboy-mode
-```
+Three layers:
 
----
-
-## The Philosophy
-
-You're not trying to be one person doing everything. You're trying to be the right player at the right moment.
-
-Sometimes you're the scorer. Sometimes you're the point guard reading the court. Sometimes you're the defender keeping bad code out. Sometimes you're the rebounder cleaning up chaos.
-
-**The play tells you which one.**
-
----
-
-## The 5-Phase Game
-
-```
-DEFINE   → Get the blueprint (architecture, design, scope)
-BUILD    → Execute with precision (code, implement, integrate)
-VERIFY   → Prove it works (test, measure, validate)
-REVIEW   → Quality gate (code review, security audit, perf check)
-SHIP     → Drop the dunk (release, deploy, land it)
-```
-
-Each phase has **plays** (repeatable workflows) + **principles** (decision lenses).
-
----
-
-## Get Started
-
-**Clone or copy plays into your project:**
-
-```bash
-# Option 1: Clone the repo
-git clone https://github.com/tallboy/plays.git
-
-# Option 2: Copy skills into your project
-cp -r plays/plays/meta/tallboy-mode .claude/skills/
-cp -r plays/plays/principles .claude/skills/
-# Then copy any phase plays you need:
-cp -r plays/plays/build/incremental-implementation .claude/skills/
-cp -r plays/plays/verify/debugging-error-recovery .claude/skills/
-```
-
-**Load a play:**
-
-```markdown
-# In your CLAUDE.md, .cursorrules, or chat:
-@plays/meta/tallboy-mode/SKILL.md
-@plays/principles/principle-prove-it-works/SKILL.md
-@plays/build/incremental-implementation/SKILL.md
-```
-
----
-
-## Quick Start: Pick Your Play
-
-**I'm starting fresh:**
-```
-/plays/define/idea-refinement            — Vague requirements? Start here.
-/plays/define/planning-and-task-breakdown — Big change? Break it down.
-/plays/define/spec-driven-development    — Architecture first.
-```
-
-**I'm building:**
-```
-/plays/build/incremental-implementation  — One step, one commit (default move).
-/plays/build/context-engineering         — Setting up for AI.
-/plays/build/api-and-interface-design    — Shape before code.
-/plays/build/frontend-ui-engineering     — Components and pages.
-```
-
-**I'm verifying:**
-```
-/plays/verify/test-driven-development    — Tests first (red-green).
-/plays/verify/debugging-error-recovery   — Bug in production? Root cause.
-/plays/verify/browser-testing-devtools   — E2E, profiling, DevTools.
-```
-
-**I'm reviewing:**
-```
-/plays/review/code-review-quality        — PR review (5-axis).
-/plays/review/security-hardening         — Security audit.
-/plays/review/performance-optimization   — Perf bottleneck.
-```
-
-**I'm shipping:**
-```
-/plays/ship/git-workflow-versioning      — Branching, tags, releases.
-/plays/ship/ci-cd-automation             — Pipelines, quality gates.
-/plays/ship/documentation-adrs           — Architecture decisions.
-/plays/ship/shipping-launch              — Production readiness.
-```
-
----
-
-## The 21 Principles: When You're Stuck
-
-Every play rests on principles. Read one when you need clarity:
-
-**Core (always relevant):**
-- **Laziness Protocol** — Delete first, smallest change wins
-- **Foundational Thinking** — Architecture before code
-- **Minimize Reader Load** — Keep cognitive load low
-- **Prove It Works** — Test on real artifacts, not proxies
-
-**When stuck:**
-```
-@plays/principles/principle-<name>/SKILL.md
-```
-
-**All 21 principles:**
-boundary-discipline, build-the-lever, encode-lessons-in-structure, exhaust-the-design-space, experience-first, fix-root-causes, foundational-thinking, guard-the-context-window, laziness-protocol, make-operations-idempotent, migrate-callers-then-delete-legacy, minimize-reader-load, model-the-domain, never-block-on-the-human, outcome-oriented-execution, prove-it-works, redesign-from-first-principles, separate-before-serializing-shared-state, sequence-verifiable-units, subtract-before-you-add, type-system-discipline
-
-Full principles guide: `@plays/principles/README.md`
-
----
-
-## The Tallboy Mode Router
-
-Unsure which play to run?
-
-```
-/plays/meta/tallboy-mode/SKILL.md
-```
-
-Reads your situation, calls the play, cites the principle. Magic Johnson's court vision meets MJ's execution focus.
-
----
-
-## How to Load a Play
-
-### Option 1: Inline (Cursor, Claude Code, ChatGPT)
-```markdown
-# In your .cursorrules, CLAUDE.md, or chat:
-@plays/build/incremental-implementation/SKILL.md
-```
-
-### Option 2: Copy Locally
-```bash
-cp -r plays/build/incremental-implementation/ .claude/skills/
-```
-
-Then invoke:
-```
-/incremental-implementation
-```
-
-### Option 3: Manual (Print and Go)
-Read the SKILL.md, follow the steps.
-
----
-
-## The Plays Map
+1. **A router** (`tallboy-mode`) that matches the task to a playbook and turns the playbook's steps into the session's todo list — verbatim, with skips visible.
+2. **Principles** — 14 decision lenses, loaded only when applied. The router carries a one-line index; each leaf is read on use.
+3. **Workhorse skills** — verification, adversarial review, design bakeoffs, and prose discipline, each invokable on its own or chained by the router.
 
 ```
 plays/
-├── meta/                     # The router
-│   └── tallboy-mode/         # Classify → Principle → Play
-├── principles/               # 21 decision lenses
-│   ├── principle-laziness-protocol/
-│   ├── principle-foundational-thinking/
-│   ├── principle-prove-it-works/
-│   └── ... (18 more)
-├── define/                   # Get clear on what you're doing
-│   ├── idea-refinement/
-│   ├── planning-and-task-breakdown/
-│   └── spec-driven-development/
-├── build/                    # Execute with precision
-│   ├── incremental-implementation/
-│   ├── context-engineering/
-│   ├── api-and-interface-design/
-│   └── frontend-ui-engineering/
-├── verify/                   # Prove it works
-│   ├── test-driven-development/
-│   ├── debugging-error-recovery/
-│   └── browser-testing-devtools/
-├── review/                   # Quality gate
-│   ├── code-review-quality/
-│   ├── security-hardening/
-│   └── performance-optimization/
-└── ship/                     # Deploy with confidence
-    ├── git-workflow-versioning/
-    ├── ci-cd-automation/
-    ├── documentation-adrs/
-    └── shipping-launch/
+├── tallboy-mode/         The router: triggers, principle index, playbook table
+│   └── playbooks/        investigation · bug-fix · feature · refactor ·
+│                         prototype · eval · ship · figure-it-out
+├── principles/           14 leaves, each a one-idea skill
+├── verify-this/          Falsifiable claim → baseline/treatment → graded verdict
+├── bootstrap-verify/     Generates a repo-specific verify skill + feature map,
+│                         then proves it by running it
+├── adversarial-review/   Independent reviewers → consensus-weighted verdict
+├── arena/                N candidates → blind cross-judge → pick → graft → verify
+├── unslop/               Cut AI tells from prose
+└── epistemics/           Confidence tiers for investigation output
 ```
 
----
+## Install
 
-## Philosophy
+Copy what you need into a project's skills directory:
 
-**You're not looking for a magic playbook.** You're looking for **clarity on the next move.**
+```bash
+# The router (playbooks come with it) and the principles
+cp -r plays/tallboy-mode plays/principles .claude/skills/
 
-Each play is ~800 tokens. Designed for one focused session. One phase complete.
+# Individual skills as needed
+cp -r plays/verify-this plays/adversarial-review .claude/skills/
+```
 
-Stack plays across sessions. Design → Build → Verify → Review → Ship.
+Skills reference each other by name only, never by relative path, so any subset installs cleanly. Then invoke `/tallboy-mode` at the start of a task, or any skill directly.
 
----
+## The contract that makes it work
 
-## Get Started
+Three rules, enforced by the router:
 
-1. Pick your situation (define, build, verify, review, ship)
-2. Load the relevant play
-3. Read the principle if stuck
-4. Execute the workflow
-5. One testable unit per session
-6. Commit, done, next
+- **Verbatim steps.** The matched playbook's steps become the todo list as written, before any task-specific planning. A step you skip stays in the list as `skip: <reason>` — a reason is a fact about the task, not a mood. Skipping silently is not allowed.
+- **Citation integrity.** Naming a principle must trace to a real decision its rule drove. A citation with no decision behind it means the leaf was never read.
+- **Honest verdicts.** VERIFIED / NOT VERIFIED / INCONCLUSIVE, with evidence strength named. Inconclusive is not a pass. A gate that silently skips its check is not a gate. Report outcomes, not command names.
 
-Now go run the game. 🏀
+## Making it stick in a new repo
 
----
+Skills are the *soft* layer of enforcement — an agent can forget them. The suite's own advice (`principle-encode-lessons-in-structure`) is to push what recurs into the hard layers: the repo's architecture and its CI. Start a new repo with `bootstrap-verify` so "verified" means something, and every time a correction repeats, turn it into a lint or a check instead of more prose.
 
-**Built by Tallboy.** Basketball terminology for engineering workflows. Repeatable, tactical, proven.
+## Extending
 
-**Repos:** [github.com/tallboy/plays](https://github.com/tallboy/plays) | [code.devsnc.com/tommy-ryan/plays](https://code.devsnc.com/tommy-ryan/plays)
+Add a playbook: one file in `tallboy-mode/playbooks/`, 15–35 lines, plus a one-line entry in the router's table naming what distinguishes it from its nearest neighbor. Add a principle: one leaf dir plus an index line in the router, written in "apply when…" form. Before promoting a change to any skill, run the Eval playbook — blinded, judged, compared against the current version.
+
+## Provenance
+
+Distilled from pstack (Lauren "poteto" Tan's Cursor plugin — the source of the router shape, most principle wording, arena, and the verification-skill generator), the thermos and cursor-team-kit plugins (adversarial review shape, verify-this), and the dashi project's command suite (unslop, epistemics, the skip-with-reason and five-heading PR conventions).

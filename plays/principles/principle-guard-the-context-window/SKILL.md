@@ -1,53 +1,16 @@
 ---
 name: principle-guard-the-context-window
-description: "Route bulk work to subagents. Keep summaries in main thread, not raw payloads. Preserve context for decisions."
-metadata:
-  phase: principle
-  pstack_ref: "guard-the-context-window"
-  version: "1.0.0"
+description: "Apply when context is filling up: large outputs, long files, repeated reads, fan-out planning. Route bulk to subagents; keep summaries in the main thread, not raw payloads."
 ---
 
 # Guard the Context Window
 
-**The play:** Don't blow your mental (or actual) context on bulk work. Delegate it, keep the summary.
+The context window is finite and non-renewable within a session. Every token that enters should earn its place.
 
-## When to Apply This
+**Why:** Context overflow degrades reasoning quality, creates compression artifacts, and halts progress. Unlike compute or time, context spent inside a session cannot be reclaimed.
 
-- ✅ Reviewing 100 files (summarize by file)
-- ✅ Processing large datasets (sample + stats)
-- ✅ Reading dense logs (extract signal)
-- ✅ Any bulk operation
-
-## The Rule
-
-**Work on bulk elsewhere. Bring back the summary.**
-
-Not:
-- ✗ Full log output (read first 10MB)
-- ✗ All 100 files in one context
-- ✗ Complete raw data (lose the forest)
-
-Instead:
-- ✓ Run analysis elsewhere
-- ✓ Bring back key findings
-- ✓ Keep decision-making context clear
-
-## How
-
-### 1. Identify Bulk
-What's too much to hold in context?
-
-### 2. Delegate It
-Process elsewhere (subagent, script, tool).
-
-### 3. Bring Back Summary
-"Out of 10K logs, 50 errors. Pattern: timeout. Root: DB pool exhaustion."
-
-## Examples
-
-**Bad:** Paste entire log into conversation.
-**Good:** "I analyzed 10K logs. 50 errors, pattern X, cause Y. Recommendation: Z."
-
-## The Principle in One Sentence
-
-**Preserve mental bandwidth. Summarize bulk. Delegate detail.**
+**Pattern:**
+- **Isolate large payloads.** Route verbose outputs, screenshots, and large documents to subagents. The main context gets summaries, not raw data.
+- **Don't read what you won't use.** Read selectively based on relevance. If a file isn't needed for the current task, skip it.
+- **Keep frequently used content inline.** Templates and references used on every invocation belong in the skill file, not in separate files that cost a read each time. Content needed only sometimes belongs in a reference loaded on demand.
+- **Size phases and cap scope.** Limit files per phase, set turn budgets, account for mechanism costs.

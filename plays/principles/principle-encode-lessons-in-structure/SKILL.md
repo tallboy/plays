@@ -1,56 +1,38 @@
 ---
 name: principle-encode-lessons-in-structure
-description: "Encode rules as lints, configs, checks—not just documentation. Let the structure enforce the rule."
-metadata:
-  phase: principle
-  pstack_ref: "encode-lessons-in-structure"
-  version: "1.0.0"
+description: "Apply when you catch yourself writing the same instruction a second time, notice a recurring correction, or leave the same review comment twice. Encode the rule as a lint, CI check, type, or convention instead of more text — and design the repo so the shortest path is the correct path."
 ---
 
 # Encode Lessons in Structure
 
-**The play:** Don't just document a rule. Encode it so the system enforces it.
+Encode recurring fixes in mechanisms (types, lints, CI checks, conventions, automation) instead of textual instructions. Every error, human correction, and unexpected outcome is a learning signal. Capture it, route it, and close the loop.
 
-## When to Apply This
+**Why:** Textual instructions are easy to miss. They require the reader to notice, remember, and comply. Structural mechanisms enforce the rule without cooperation.
 
-- ✅ Discovering a mistake pattern
-- ✅ After a bug is found
-- ✅ When onboarding repeats same error
-- ✅ Any time you write a rule
+**The enforcement hierarchy.** Layers, strongest first:
 
-## The Rule
+1. **Architecture and conventions** — the codebase's shape makes the wrong thing hard to write (collocated features, banned imports between directories, one conventional way to add a thing).
+2. **Compiler, types, lints, CI** — the wrong thing fails red. An unrepresentable state that cannot compile, then a lint or banned API that fails CI, then a canonical helper, then a runtime check.
+3. **Rules, skills, review bots** — soft. Agents can forget them or apply them inconsistently.
+4. **Human review comments** — the weakest layer, and a smell: every recurring review comment is a rule that wants to move up the hierarchy.
 
-**Make the rule unbreakable. Not in docs, in code.**
+Skills — including this one — live at layer 3. Layer them over hard enforcement, never in place of it. A codebase guarded only by prose rules degrades; it's only a matter of time. When a correction recurs, push it down: "how do I turn this comment into a lint rule, a CI failure, or a categorical elimination of the problem?"
 
-Not:
-- ✗ "Always validate at boundaries" (docs)
-- ✗ "Never use globals" (code review notes)
-- ✗ Hoping people follow the rule
+**Make the shortest path the best path.** Agents copy existing patterns and take the quickest route to a solution — so design the repo where the laziest solution is the correct one. Collocate everything a feature needs in one place so the obvious edit is the right edit. Make the conventional way the easy way, and the footgun a hard CI failure rather than a warning. A weaker guard becomes the next template.
 
-Instead:
-- ✓ Lint: No global variables (linter blocks it)
-- ✓ Type: Boundary validator (type enforces it)
-- ✓ Config: Always run on startup (config system ensures it)
-- ✓ Test: Rule-breaking code fails tests
+**Pattern.** When you catch yourself writing the same instruction a second time:
+1. Ask: can this be a type, a lint rule, a CI check, or a script?
+2. If yes, encode it at the strongest rung the situation allows. Delete the instruction.
+3. If no (genuinely requires judgment), make the instruction more prominent and add an example of the failure mode.
 
-## How
+**Corollary:** Don't paper over symptoms. If the fix is structural, only use the structural fix. The instruction IS the symptom.
 
-### 1. Name the Rule
-"All API endpoints validate input"
+**Feedback loop:**
+- **Capture every correction.** When the human intervenes or tests fail, decide if it's a one-off or a pattern.
+- **Route to the right layer.** One-off → note. Recurring fix → lint rule or skill. Systemic issue → principle.
+- **Close the loop.** Don't just record. Apply now or create a concrete todo.
 
-### 2. Make It Automatic
-- Lint rule? Add to linter.
-- Validator? Add to middleware.
-- Setup? Add to init.
-
-### 3. Test It
-Ensure rule-breaking code fails tests.
-
-## Examples
-
-**Bad:** "Always validate at boundaries" in docs.
-**Good:** Middleware.use(validateInput) on all routes. Impossible to skip.
-
-## The Principle in One Sentence
-
-**Automate the rule. Don't just document it.**
+**Anti-patterns:**
+- Acknowledging without recording ("I'll keep that in mind" does not persist)
+- Recording without routing (a note about a lint rule that should exist is wasted unless the lint rule gets implemented)
+- Fixing without generalizing (fixing one instance while leaving the recurring pattern intact)

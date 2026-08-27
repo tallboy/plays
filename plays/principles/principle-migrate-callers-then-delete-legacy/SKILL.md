@@ -1,53 +1,23 @@
 ---
 name: principle-migrate-callers-then-delete-legacy
-description: "Migrate all callers then delete the old API in the same wave. No permanent compat layers."
-metadata:
-  phase: principle
-  pstack_ref: "migrate-callers-then-delete-legacy"
-  version: "1.0.0"
+description: "Apply when introducing a new internal API while old callers exist, or planning a rewrite or migration. Migrate callers and delete the old path in the same wave; converge on the target state instead of preserving compatibility layers."
 ---
 
-# Migrate Callers Then Delete Legacy
+# Migrate Callers, Then Delete Legacy
 
-**The play:** When you have old and new APIs, migrate callers then delete old. Not: old forever for compat.
+When a new API or architecture is the right design, migrate callers and remove the old path in the same refactor wave instead of preserving compatibility layers.
 
-## When to Apply This
+**Rule:**
+- Do not keep legacy paths alive only because internal callers still exist
+- Inventory callers, migrate them, and delete the old API immediately
+- Treat temporary adapters as exceptional and time-boxed, not default architecture
+- Update tests to assert the new contract, and delete tests that only protect pre-refactor implementation details
 
-- ✅ API redesigns
-- ✅ Large refactors
-- ✅ Deprecating code paths
-- ✅ Any time you support "both old and new"
+**Outcome-oriented execution.** For planned rewrites and migrations with explicit phase boundaries, optimize for the intended, verifiable end state rather than preserving smooth intermediate states. Keeping every intermediate step fully stable often creates temporary compatibility code that becomes long-lived debt. Intermediate breakage is acceptable when it is planned, scoped, and reversible — declare where, keep high-signal checks on actively touched areas, and require full static and runtime verification at plan completion.
 
-## The Rule
+**When this applies:**
+- No external users depend on backward compatibility
+- The project can absorb coordinated breaking changes
+- The new API is part of a simplification or refactor initiative
 
-**Migrate all callers. Delete the old in the same commit/PR. Don't preserve forever.**
-
-Not:
-- ✗ Support both APIs indefinitely
-- ✗ "Old API is deprecated, but we'll keep it"
-- ✗ Permanent compat shims
-
-Instead:
-- ✓ New API ready? Migrate all callers.
-- ✓ All callers migrated? Delete old.
-- ✓ Both in one PR = atomic, clear transition
-
-## How
-
-### 1. Build New
-New API ready for use.
-
-### 2. Migrate All Callers
-Every place that uses old → use new.
-
-### 3. Delete Old
-In the same PR/commit. Atomic.
-
-## Examples
-
-**Bad:** Support UserService.getUser() and UserService.findUser() forever.
-**Good:** Build getUserById(). Migrate all callers. Delete getUser().
-
-## The Principle in One Sentence
-
-**New → migrate → delete old. All in one wave. No permanent cruft.**
+Keeping both old and new paths creates dual-path complexity, slows cleanup, and makes the codebase feel append-only.

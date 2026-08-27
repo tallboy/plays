@@ -1,66 +1,20 @@
 ---
 name: principle-fix-root-causes
-description: "Trace each symptom to root cause. Resist nil-check guards. Fix it there, not on the surface."
-metadata:
-  phase: principle
-  pstack_ref: "fix-root-causes"
-  version: "1.0.0"
+description: "Apply when debugging. Trace each symptom to its root cause and fix it there; reproduce first, ask why until you reach it, resist nil-check guards that silence crashes."
 ---
 
 # Fix Root Causes
 
-**The play:** Symptom: Crash. Root cause: Nil pointer because initialization order is wrong. Fix initialization, not the nil check.
+When debugging, do not paper over symptoms. Trace every problem to its root cause and fix it there.
 
-## When to Apply This
+**Why:** Symptom fixes accumulate. Each workaround makes the system harder to reason about, and the real bug remains. Root-cause fixes are slower upfront but reduce total debugging time.
 
-- ✅ Debugging a bug (before adding guards)
-- ✅ Seeing the same failure pattern twice
-- ✅ Tempted to add a nil check or try/catch
-- ✅ Symptoms that feel preventable
+**Pattern:**
+- Reproduce first (if you can't reproduce it, you can't verify your fix)
+- Ask "why" until you hit the root cause
+- Resist the urge to add guards (adding a nil check to silence a crash is a symptom fix)
+- If a workaround needs a paragraph-long comment to justify it, the code is wrong (fix the code, not the comment)
+- Check for the pattern, not just the instance (grep for the same pattern, fix all instances)
+- When stuck, instrument. Don't guess (add logging, read the actual error)
 
-## The Rule
-
-**Don't patch symptoms. Trace to root cause and fix it there.**
-
-Not:
-- ✗ `if user { ... }` (guards the symptom)
-- ✗ `try { risky_operation() } catch { ... }` (catches the symptom)
-- ✗ Adding defensive code throughout
-
-Instead:
-- ✓ Why is user nil? Fix that.
-- ✓ Why does risky_operation fail? Fix that.
-- ✓ Make the failure impossible.
-
-## How
-
-### 1. Reproduce
-Get the exact failure. What triggers it?
-
-### 2. Trace
-Follow the code backwards:
-- Crash here? Why?
-- That's nil. Why is it nil?
-- It wasn't initialized. Why?
-- Load order is wrong. Fix it.
-
-### 3. Ask "Why" Five Times
-- Crash (why?)
-- Nil pointer (why?)
-- Initialization missing (why?)
-- Order dependency not tracked (why?)
-- No dependency graph
-
-Fix: Add dependency graph, init in order.
-
-### 4. Verify
-The crash should now be impossible. No guard needed.
-
-## Examples
-
-**Bad:** Add `if user { ... }` to prevent crash
-**Good:** Fix initialization order so user is never nil
-
-## The Principle in One Sentence
-
-**Trace to source. Fix there. Guards only mask symptoms.**
+**Restart bugs: suspect state before code.** Code doesn't change between runs. State does. When something "fails after restart," suspect stale persistent state first: config files, caches, lock files, serialized state. If clearing a state file restores behavior, prioritize state validation as the fix.

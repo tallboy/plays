@@ -1,56 +1,21 @@
 ---
 name: principle-never-block-on-the-human
-description: "Proceed with the work. Don't wait for permission. Let humans correct course after, not before."
-metadata:
-  phase: principle
-  pstack_ref: "never-block-on-the-human"
-  version: "1.0.0"
+description: "Apply when tempted to ask 'should I do X?' on reversible work. Proceed, present the result, let the human course-correct after the fact; reserve confirmation for irreversible actions."
 ---
 
 # Never Block on the Human
 
-**The play:** Keep the work moving. Don't halt waiting for approval. Proceed, and let them course-correct after.
+The human supervises asynchronously. Stay unblocked: make reasonable decisions, proceed, and let the human course-correct after the fact. Code is cheap. Waiting is expensive.
 
-## When to Apply This
+**Why:** Every permission pause stalls the pipeline and makes the human the bottleneck. Since code changes are reversible and reviewable, a wrong decision usually costs less than blocking.
 
-- ✅ Choosing between reasonable options
-- ✅ Exploratory work
-- ✅ When you could ask but it would slow things down
-- ✅ Any time the cost of asking > cost of being wrong
+**Pattern:**
+- **Proceed, then present.** Do the work, show the result. Don't ask "should I do X?" Do X, explain why.
+- **Classify the question before asking.** If the answer is a fact you could observe by running something (behavior, timing, layout, output, perf), it is not the human's to answer — build the smallest probe that answers it and let the result decide. Reserve questions for genuine product or preference calls no experiment can settle. The ask is the slow path; a throwaway probe hands the human a result to react to instead of a decision to make.
+- **Make the system self-healing.** When you notice a problem, log it and fix it in the next round.
+- **Supervision is async.** The human reviews plans, diffs, and changes on their own schedule. Design workflows for review-after-the-fact.
 
-## The Rule
-
-**Proceed. Present the result. Let them correct after, not before.**
-
-Not:
-- ✗ "Should I implement A or B?" (blocks work)
-- ✗ Waiting for design review before coding
-- ✗ Asking permission before exploring
-
-Instead:
-- ✓ Implement A. Show the result.
-- ✓ If they want B, course-correct.
-- ✓ Faster to iterate than to plan perfectly upfront.
-
-## How
-
-### 1. Decide with the Info You Have
-Good enough? Ship it.
-
-### 2. Proceed
-Don't wait.
-
-### 3. Present
-"Here's what I did."
-
-### 4. Correct If Needed
-"Oh, do it this way instead?" Easy to change.
-
-## Examples
-
-**Bad:** "Should I use React or Vue?" (blocks weeks of design debate)
-**Good:** Build with React. Show result. If wrong, refactor. (days, not weeks)
-
-## The Principle in One Sentence
-
-**Iterate fast. Correct direction after, not before.**
+**Boundaries:**
+- **Irreversible actions** (force-push, delete production data, send external messages, deploys) still require confirmation.
+- **Reversible actions** (write code, edit notes, split tasks) proceed without blocking.
+- **Product direction** comes from the human; *execution* should not block.
