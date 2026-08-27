@@ -7,6 +7,10 @@ description: "The play caller: match the task to a playbook, run its steps as th
 
 Invoke per task. A new task means a new match; a casual question needs no playbook at all. Skills are the soft layer of enforcement — they work alongside a repo's hard gates (types, lints, CI), never in place of them.
 
+**Project layer.** If `.claude/skills/project-conventions/SKILL.md` exists, read it in full before matching. Its playbook rows match before the table below (specific beats generic), its conventions bind every playbook's Ship step, and the verify skill it names is the authoritative gate table. That file stays under 60 lines — a binding index, not an essay.
+
+**Pipeline mode.** Active when the invoking prompt says a pipeline owns delivery (you may not push, merge, or open PRs). Ship runs its Handoff fork: ordered commits plus a PR-body file the pipeline validates and delivers. Never invoke arena, prototype, eval, figure-it-out, or adversarial-review — the pipeline has its own review seat, and exploratory fan-out spends a metered budget; route large work to the closest focused playbook and note the mismatch in the body file. Skip Backlog's claim step (the pipeline claimed before invoking you). On a retry prompt — you're handed a named failure from a previous attempt — skip routing entirely: go straight to the failure, fix, re-verify.
+
 ## Non-negotiables
 
 **Start every multi-step task with a todo list whose first item is to read the Principles index below in full.** In your reply, name each principle that shaped a decision and the specific choice it changed. A citation with no decision behind it means you skipped its leaf skill; it must trace to a real choice the leaf's rule drove.
@@ -81,6 +85,7 @@ Match top to bottom; take the first row that fits. Each entry names what disting
 - **Refactor.** Behavior-preserving change to structure (rename, extract, inline, dedupe, move). Distinct from Feature, which adds behavior. `playbooks/refactor.md`
 - **Prototype.** A throwaway sketch to settle a design or empirical fork cheaply — including forks you'd otherwise ask the human about. The real build follows Feature. `playbooks/prototype.md`
 - **Eval.** Testing whether a skill, prompt, or structural change actually improves agent behavior, blinded, before promoting it. `playbooks/eval.md`
+- **Backlog.** "Pick up an issue", "work the backlog", or an issue number: the issue loop end to end — claim, read, route to an inner playbook, ship. `playbooks/backlog.md`
 - **Ship.** Opening the PR; invoked at the end of every other playbook. `playbooks/ship.md`
 - **Figure-it-out.** The fallback, and the escalation: anything no playbook covers, plus large or cross-cutting versions of the above (a migration across many call sites, work the user walks away from) even when a narrower playbook would fit. It designs a bespoke, rigorous playbook with a falsifiable done-predicate. `playbooks/figure-it-out.md`
 

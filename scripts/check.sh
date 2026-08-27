@@ -69,11 +69,12 @@ done
 ph=$(grep -rnE '\bTODO\b|\bPLACEHOLDER\b|\(add [a-z ]* here\)' plays/ || true)
 [ -z "$ph" ] || err "placeholder text shipped: $ph"
 
-# --- 7. Token ratchet: no skill file grows past 1600 words without a
-#        deliberate bump to this limit.
+# --- 7. Token ratchet: no skill file grows past the limit without a
+#        deliberate bump here. History: 1600 at creation; 1800 on 2026-08-26
+#        when the router gained the project-layer and pipeline-mode sections.
 while read -r words f; do
   [ "$f" = "total" ] && continue
-  if [ "$words" -gt 1600 ]; then err "$f is $words words (>1600) — trim it or raise this ratchet deliberately"; fi
+  if [ "$words" -gt 1800 ]; then err "$f is $words words (>1800) — trim it or raise this ratchet deliberately"; fi
 done < <(find plays -name '*.md' -exec wc -w {} + | awk '{print $1, $2}')
 
 if [ "$fail" -eq 0 ]; then echo "OK: all checks passed"; else exit 1; fi

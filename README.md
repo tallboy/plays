@@ -55,6 +55,10 @@ Skills are the *soft* layer of enforcement — an agent can forget them. The sui
 
 Add a playbook: one file in `tallboy-mode/playbooks/`, 15–35 lines, plus a one-line entry in the router's table naming what distinguishes it from its nearest neighbor. Add a principle: one leaf dir plus an index line in the router, written in "apply when…" form. Before promoting a change to any skill, run the Eval playbook — blinded, judged, compared against the current version.
 
+## Project layer
+
+A repo makes the suite its own with one extra skill: `.claude/skills/project-conventions/` (fixed name, under 60 lines). It declares project playbook rows (matched before the generic table), backlog conventions (claim command, branch prefix, label rules, protected paths), and the name of the repo's verify skill; project playbooks live at `project-conventions/playbooks/*.md`. The vendored router stays byte-identical everywhere — upgrades are a plain re-copy. New-repo onboarding: copy the router + principles, run bootstrap-verify to generate `verify-<repo>`, write a short project-conventions. Done.
+
 ## Vendoring
 
 Installs are copies, and copies diverge. The expected divergence is reference-targets only — a copied skill pointing at the host repo's own verify skill or command names instead of a sibling that wasn't copied. Record each retarget in the copy's commit message so it survives an upgrade. To upgrade: re-copy from this repo, reapply the recorded retargets, and if the change touched the router or a principle, rerun the eval (`evals/`) and compare against `evals/BASELINE.md`.
