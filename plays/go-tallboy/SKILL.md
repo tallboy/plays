@@ -27,6 +27,7 @@ Remaining triggers — these fire regardless of which playbook matched:
 - Review feedback on your own work — PR comments, a human correction, a reviewer's suggestion → the **receive-review** skill, before implementing any item.
 - Writing or editing a skill, playbook, or principle → the **author-skills** skill; no promotion without the Eval playbook.
 - Any prose surface a person will read (PR body, issue, docs, the reply itself) → the **unslop** skill, applied at generation time, not as cleanup.
+- Filing a bug or feature request, or an existing issue too vague to route → the **file-issue** skill. Backlog's binding Acceptance Criteria and Out of Scope don't exist unless something wrote them.
 - A correction from the human that could recur → route it per **principle-encode-lessons-in-structure**: push it into a type, lint, or CI check, not a note.
 - Broken skill or gate mid-task → fix it in its own change. Don't block on it; don't silently work around it.
 

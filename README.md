@@ -6,7 +6,7 @@ Three layers:
 
 1. **A router** (`go-tallboy`) that matches the task to a playbook and turns the playbook's steps into the session's todo list — verbatim, with skips visible.
 2. **Principles** — 14 decision lenses, loaded only when applied. The router carries a one-line index; each leaf is read on use.
-3. **Workhorse skills** — verification, adversarial review, design bakeoffs, review response, skill authoring, and prose discipline, each invokable on its own or chained by the router.
+3. **Workhorse skills** — verification, adversarial review, design bakeoffs, review response, skill authoring, issue authoring, and prose discipline, each invokable on its own or chained by the router.
 
 ```
 plays/
@@ -21,6 +21,7 @@ plays/
 ├── receive-review/       Respond to review: verify each item, push back, no theater
 ├── arena/                N candidates → blind cross-judge → pick → graft → verify
 ├── author-skills/        Write skills against observed failures, promote via eval
+├── file-issue/           Bug/feature report → Acceptance Criteria + Out of Scope
 ├── unslop/               Cut AI tells from prose
 └── epistemics/           Confidence tiers for investigation output
 ```
@@ -36,6 +37,7 @@ plays/
 | `receive-review` | Review feedback arrives on your work | The *receiving* side: verify every item against the codebase before implementing any, push back with reasoning when the feedback is wrong, ban performative agreement. |
 | `arena` | A design decision with no codebase precedent | Builds N candidate implementations, cross-judges them blind, picks a winner, grafts the losers' best ideas, verifies the result. |
 | `author-skills` | Writing or editing a skill, playbook, or principle | Capture the failure transcript first, match the guidance form to the failure type, keep descriptions trigger-only, promote only through a blinded eval. |
+| `file-issue` | "file a bug", "open an issue", "write this up" | Turns a reported bug or requested feature into an issue with falsifiable Acceptance Criteria and an explicit Out of Scope — the shape Backlog treats as binding. |
 | `unslop` | Any prose a person will read (PR body, issue, docs, the reply) | Cuts AI tells at generation time, not as cleanup. |
 | `epistemics` | "why is this built this way?", answers assembled from history | Grades each claim by confidence tier so the reader knows fact from inference. |
 
@@ -53,7 +55,7 @@ Skills load from a `skills/` directory exactly one level deep — which is why t
 mkdir -p .claude/skills
 cp -r plays/go-tallboy plays/principles/principle-* .claude/skills/
 cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena \
-      plays/unslop plays/epistemics plays/receive-review plays/author-skills .claude/skills/
+      plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue .claude/skills/
 ```
 
 **Globally** (every repo on the machine) — same command against `~/.claude/skills/`:
@@ -62,7 +64,7 @@ cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/ar
 mkdir -p ~/.claude/skills
 cp -r plays/go-tallboy plays/principles/principle-* ~/.claude/skills/
 cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena \
-      plays/unslop plays/epistemics plays/receive-review plays/author-skills ~/.claude/skills/
+      plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue ~/.claude/skills/
 ```
 
 Skills reference each other by name only, never by relative path, so any subset installs cleanly — the router alone is useful, and each workhorse skill stands on its own. Two things stay per-repo regardless of a global install: the `verify-<repo>` skill that bootstrap-verify generates, and the `project-conventions` skill described under Project layer. Then invoke `/go-tallboy` at the start of a task, or any skill directly.
