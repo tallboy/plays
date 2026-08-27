@@ -15,7 +15,7 @@ Answer these from the codebase; ask the user only what you cannot observe:
 
 - **Surface:** what does a user actually touch? Web UI, CLI/TUI, desktop app, API, mobile app, library? Pick the primary one and note the rest.
 - **Run:** how does the app start locally? Prefer the repo's own documented dev command (package scripts, Makefile, README quickstart). Note ports, env vars, seed data, auth.
-- **Gates:** what checks already exist? Read CI config for the true gate list and path triggers — CI is the source of truth, not the README. If the repo has a composite gate (`preflight`, `check-all`), bind to it; if it doesn't, propose one, because per-command gate lists drift.
+- **Gates:** what checks already exist? Read CI config for the true gate list and path triggers — CI is the source of truth, not the README. If the repo has a composite gate (`preflight`, `check-all`), bind to it; if it doesn't, propose one, because per-command gate lists drift. In everything you generate, *point at* the authoritative trigger table (CI's path filters, or the one table this skill writes) — never restate the trigger list in a second document. A restated list is drift with a delay on it.
 - **Drive:** how can an agent interact with the app programmatically? Existing harnesses first — Playwright/Cypress specs, expect scripts, curl-able endpoints, a debug port. Only then pick a generic recipe: browser/CDP for web and Electron, tmux/PTY for CLI/TUI, plain HTTP for services.
 - **Observe:** what evidence can be captured? Screenshots, terminal transcripts, response bodies, logs, exit codes, DB state.
 - **Isolate:** can two instances run side by side (ports, data dirs, profiles)? If not, say so in the generated skill: refusing to double-drive a shared instance beats corrupting the user's session.
@@ -41,7 +41,9 @@ The map is what turns a vague bug report ("screenshot + ???") into something an 
 
 ## 4. Prove the generated skill before handing it over
 
-Run its own instructions end to end once: launch, doctor, drive ONE mapped feature, capture evidence, clean up. After cleanup, confirm the evidence still exists at the named location — a cleanup that eats the proof fails this step. Fix what fails, and run cleanup after every failed iteration too. **A generated skill that was never executed is a draft, not a deliverable.**
+Run its own instructions end to end once: launch, doctor, drive ONE mapped feature, capture evidence, clean up. After cleanup, confirm the evidence still exists at the named location — a cleanup that eats the proof fails this step. Fix what fails, and run cleanup after every failed iteration too.
+
+**This step is the exit criterion.** The outcome of this skill is `generated` (proving run passed, evidence confirmed) or `blocked: <what prevented the run>` — there is no honestly-labeled-draft middle state, because deferrable steps get deferred. If the environment can't run the drive, the deliverable is the blocked report, and the skill files stay clearly marked unproven until someone runs it.
 
 ## 5. The maintenance pass
 

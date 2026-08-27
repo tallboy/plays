@@ -1,0 +1,11 @@
+name: check
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash scripts/check.sh

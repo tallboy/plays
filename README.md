@@ -55,6 +55,14 @@ Skills are the *soft* layer of enforcement — an agent can forget them. The sui
 
 Add a playbook: one file in `tallboy-mode/playbooks/`, 15–35 lines, plus a one-line entry in the router's table naming what distinguishes it from its nearest neighbor. Add a principle: one leaf dir plus an index line in the router, written in "apply when…" form. Before promoting a change to any skill, run the Eval playbook — blinded, judged, compared against the current version.
 
+## Vendoring
+
+Installs are copies, and copies diverge. The expected divergence is reference-targets only — a copied skill pointing at the host repo's own verify skill or command names instead of a sibling that wasn't copied. Record each retarget in the copy's commit message so it survives an upgrade. To upgrade: re-copy from this repo, reapply the recorded retargets, and if the change touched the router or a principle, rerun the eval (`evals/`) and compare against `evals/BASELINE.md`.
+
+## Checks
+
+`bash scripts/check.sh` (also CI on every push) enforces the structure: frontmatter present and trigger-form, skill names matching their dirs, the install command landing every skill one directory deep, no relative links, no dangling router references, and a per-file word ratchet. Every check encodes a failure that actually happened once.
+
 ## Provenance
 
 Distilled from pstack (Lauren "poteto" Tan's Cursor plugin — the source of the router shape, most principle wording, arena, and the verification-skill generator), the thermos and cursor-team-kit plugins (adversarial review shape, verify-this), and the dashi project's command suite (unslop, epistemics, the skip-with-reason and five-heading PR conventions).

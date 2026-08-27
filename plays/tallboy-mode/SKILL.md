@@ -89,3 +89,5 @@ A pure docs, copy, or config edit needs no playbook: make the change, run the ga
 ## The reply
 
 Lead with the outcome. Keep every section the playbook's reply names: what you built or found, the principles cited with the decisions they drove, the gates run with their outcomes, skipped steps still visible, what's still open, and any real risk. Paste verification evidence verbatim. Never fabricate a link, citation, or reference. If you think the approach is wrong, say so.
+
+Before sending, audit the reply against the artifacts: every factual claim traces to something produced this session — an output, a diff, a test run. Cut or hedge what doesn't. Direction-of-benefit claims (who owes whom, who gains, which way the number moved) come from the evidence, not from narrative momentum; an inverted aside sends the reader the wrong way with full confidence.
