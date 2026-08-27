@@ -29,7 +29,9 @@ Copy what you need into a project's skills directory:
 
 ```bash
 # The router (playbooks come with it) and the principles
-cp -r plays/tallboy-mode plays/principles .claude/skills/
+# Principles copy individually — Claude Code discovers skills exactly one
+# directory deep, so a nested principles/ folder would never load.
+cp -r plays/tallboy-mode plays/principles/principle-* .claude/skills/
 
 # Individual skills as needed
 cp -r plays/verify-this plays/adversarial-review .claude/skills/

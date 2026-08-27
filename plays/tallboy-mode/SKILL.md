@@ -26,7 +26,7 @@ Remaining triggers — these fire regardless of which playbook matched:
 
 ## Principles index
 
-Read the leaf skill in full for any principle you apply (`principles/principle-<name>/SKILL.md`). Each entry names when it applies.
+Read the leaf skill in full for any principle you apply — each is its own skill, named `principle-<name>`. Each entry names when it applies.
 
 **Core**
 
