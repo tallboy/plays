@@ -1,8 +1,8 @@
 # Evals
 
-Regression benchmarks for the suite itself. Any change to the router, a playbook, or a principle should be re-measured here before it merges — the Eval playbook (`plays/tallboy-mode/playbooks/eval.md`) is the procedure; these files are its fixtures.
+Regression benchmarks for the suite itself. Any change to the router, a playbook, or a principle should be re-measured here before it merges — the Eval playbook (`plays/go-tallboy/playbooks/eval.md`) is the procedure; these files are its fixtures.
 
-**Blinding is the whole game.** Candidates must never see this directory, this repo, or any name containing eval/rubric/candidate. Copy the fixture out to neutral, project-shaped paths (e.g. `<tmp>/maple/shopcart`, `<tmp>/cedar/shopcart`), `git init` each copy with an innocuous initial commit, install the suite variant under test into one arm's `.claude/skills/` (flat — one directory per skill) with a CLAUDE.md that routes through tallboy-mode, and give both arms the same organic prompt. The rubric goes only to the judge.
+**Blinding is the whole game.** Candidates must never see this directory, this repo, or any name containing eval/rubric/candidate. Copy the fixture out to neutral, project-shaped paths (e.g. `<tmp>/maple/shopcart`, `<tmp>/cedar/shopcart`), `git init` each copy with an innocuous initial commit, install the suite variant under test into one arm's `.claude/skills/` (flat — one directory per skill) with a CLAUDE.md that routes through go-tallboy, and give both arms the same organic prompt. The rubric goes only to the judge.
 
 ## shopcart
 

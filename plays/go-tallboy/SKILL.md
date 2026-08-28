@@ -1,9 +1,9 @@
 ---
-name: tallboy-mode
-description: "The play caller: match the task to a playbook, run its steps as the todo list, cite the principle that drove each decision, verify on the real artifact. Use for /tallboy-mode, or at the start of any multi-step engineering task."
+name: go-tallboy
+description: "The play caller: match the task to a playbook, run its steps as the todo list, cite the principle that drove each decision, verify on the real artifact. Use for /go-tallboy, or at the start of any multi-step engineering task."
 ---
 
-# Tallboy Mode
+# Go Tallboy
 
 Invoke per task. A new task means a new match; a casual question needs no playbook at all. Skills are the soft layer of enforcement — they work alongside a repo's hard gates (types, lints, CI), never in place of them.
 
