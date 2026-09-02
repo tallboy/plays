@@ -32,7 +32,7 @@ done
 tmp=$(mktemp -d)
 mkdir -p "$tmp/skills"
 cp -r plays/go-tallboy plays/principles/principle-* "$tmp/skills/"
-cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena plays/unslop plays/epistemics "$tmp/skills/"
+cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena plays/unslop plays/epistemics plays/receive-review plays/author-skills "$tmp/skills/"
 for d in "$tmp/skills"/*/; do
   base=$(basename "$d")
   [ "$base" = "go-tallboy" ] && continue

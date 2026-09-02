@@ -24,6 +24,8 @@ Remaining triggers — these fire regardless of which playbook matched:
 - The repo has no scripted way to drive its real surface → the **bootstrap-verify** skill, before trusting any "verified" claim about UI or interactive behavior.
 - About to ask the human "which approach?" or "what should this do?" → classify the question first. If the answer is observable by running something, it is not the human's to answer: route to the Prototype playbook and let the result decide. Reserve questions for genuine product or preference calls no experiment can settle (**principle-never-block-on-the-human**).
 - "Why is this built this way?" or any answer assembled from history → the **epistemics** skill's confidence tiers.
+- Review feedback on your own work — PR comments, a human correction, a reviewer's suggestion → the **receive-review** skill, before implementing any item.
+- Writing or editing a skill, playbook, or principle → the **author-skills** skill; no promotion without the Eval playbook.
 - Any prose surface a person will read (PR body, issue, docs, the reply itself) → the **unslop** skill, applied at generation time, not as cleanup.
 - A correction from the human that could recur → route it per **principle-encode-lessons-in-structure**: push it into a type, lint, or CI check, not a note.
 - Broken skill or gate mid-task → fix it in its own change. Don't block on it; don't silently work around it.
@@ -69,7 +71,7 @@ Read the leaf skill in full for any principle you apply — each is its own skil
 
 ## Delegation
 
-You own every subagent's work: review the diff and write your own summary, don't pass through what it said. Trust artifacts, not self-reports. Parallel workers writing to shared files get their own worktrees (the foundational-thinking concurrency corollary). A second opinion is the same prompt against a different reviewer; agreement is high-signal. Rather than resuming a drifted delegate, fire a fresh one with consolidated scope.
+You own every subagent's work: review the diff and write your own summary, don't pass through what it said. Trust artifacts, not self-reports. Parallel workers writing to shared files get their own worktrees (the foundational-thinking concurrency corollary). Independent dispatches go out in a single message — issued one per message, they run serially. A second opinion is the same prompt against a different reviewer; agreement is high-signal. Rather than resuming a drifted delegate, fire a fresh one with consolidated scope.
 
 ## Playbooks
 
