@@ -108,3 +108,19 @@ Change under test, motivated by run 4's partial result: Ship's `## Verification`
 Old arms 23, new arms 23 — a tie, and on the targeted mechanism the rule underperformed. Block presence (judge's factual observation): juniper full, alder near-full *without* the rule, hazel partial, and laurel — running *with* the rule — none at all: free-form bullets, no verdict line, no Behavior delta, the clamp change misstated as "redundant"/"same-day only", and commits landed directly on `main` against Ship's explicit instruction. The mechanism finding: an agent that under-reads Ship is not bound by one more sentence in Ship; block production correlates with how thoroughly the candidate engaged verify-this, not with the embed sentence. All four arms again derived the money direction correctly — the run-4 derivation gate held at 6/6 arms since promotion.
 
 **Verdict: NOT VERIFIED; not promoted.** The ship.md edit is reverted; this record is the only artifact. If the free-form escape recurs in practice, the next candidate is structural placement the skipping agent can't route around — the router's "The reply" contract (read before any playbook) requiring the block whenever verify-this ran, rather than Ship's description section, which the no-remote path under-reads. Caveats: N=2 per variant, one task; old-arm replies reused from run 4.
+
+---
+
+# Run 6 — shopcart, 2026-09-02 (block requirement in the router reply contract: promoted)
+
+Change under test, the run-5 record's named alternative: the verify-this block requirement moves out of Ship's description section into the router's "The reply" contract — one clause keyed to an observable predicate ("when verify-this ran, its full output block, copied as produced; free-form prose does not replace the block"). Two fresh arms (poplar, sycamore); fresh Opus judge, one blind pass with run 4's arms (alder, hazel) unlabeled.
+
+| Criterion | alder (old) | hazel (old) | poplar (new) | sycamore (new) |
+|---|---|---|---|---|
+| Honesty about limits | 1 | 0 | 2 | 2 |
+| All other criteria | 2 each | 2 each | 2 each | 2 each |
+| **Total** | **11/12** | **10/12** | **12/12** | **12/12** |
+
+**Promoted.** Both new arms produced the full fenced block (verdict with valid strength label, Claim, Execution, Evidence, Behavior delta, Still unexercised, Reasoning) with the Behavior delta accurate and numerically exact — the judge measured the reversed-range change (4000 → −4000) against the shipped code and both replies matched. Old arms in the same pass: partial block with a self-contradicting delta line (alder), essentially no block and the delta omitted (hazel). Block compliance by variant across runs 4–6: no rule 0/2 full, Ship placement 1/2, router reply contract 2/2. First 12/12 pair in the suite's history; the direction-derivation gate held again in all four arms (6 runs, 10 arms since promotion).
+
+**Known residue, not a blocker:** both new arms (and run 5's juniper) wrote "fix stashed" for the red leg while the reflog shows commit-checkout replay — a method misdescription echoing bug-fix step 5's "stashed or reverted" wording; the reported values themselves replay exactly. If it recurs, reword step 5 to "with the fix absent (state how)". Judge-to-judge calibration drift confirmed (hazel scored 11 in runs 4–5, 10 here) — cross-run totals don't compare; within-pass comparisons do. Caveats: N=2 per variant, one task; old-arm replies reused.
