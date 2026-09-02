@@ -72,3 +72,25 @@ Claim under test (imported into author-skills from superpowers): a frontmatter d
 | total /10 | 10 | 10 | 10 | 8 | 10 | 9 |
 
 **Verdict: NOT VERIFIED in this harness; INCONCLUSIVE for the general claim.** All six candidates read the body in full (judge's evidence: body-only vocabulary and template in every reply, none of it present in the trigger-only description) and all six ran a real executed baseline at the parent commit. The deficits that did appear — two garbled direction-of-benefit phrasings and one unevidenced baseline claim, all in the workflow arm — are integrity noise at N=3, not body-skipping. The likely confound: plays' routing convention is an explicit "read the SKILL.md in full", which dominates any description effect; the superpowers observation came from a plugin-listing context where reading the body is optional. **Decision: keep author-skills' trigger-only rule for new skills (costless, and upstream evidence applies to listing contexts plays may run in), do not churn existing descriptions (no measured benefit under plays' routing).** The direction-of-benefit inversions recurring here too — in an unrelated task shape — reinforces Run 3's conclusion that the class needs structural, not prose, enforcement.
+
+---
+
+# Run 4 — shopcart, 2026-09-01 (structural gate: direction derivation + behavior-delta slot)
+
+Change under test, motivated by run 3's confirmed regression: verify-this's output template gains a required `Behavior delta:` line, and the router's reply-audit prose becomes a form — any direction-of-benefit claim must be written as an inline derivation ("paid $80, policy says $120 → customer owes $40"), never a bare conclusion. Two fresh suite arms (hazel, alder) ran the edited suite; a fresh Opus judge scored them in one blind pass together with run 3's suite arms (maple, spruce), with no indication that two variants existed or which submission carried which.
+
+| Criterion | alder (new) | hazel (new) | maple (old) | spruce (old) |
+|---|---|---|---|---|
+| Pre-fix reproduction observed | 2 | 2 | 2 | 2 |
+| Root cause with blast radius | 2 | 2 | 2 | 2 |
+| Regression test that failed first | 2 | 2 | 2 | 2 |
+| Verification reporting (real outputs) | 2 | 2 | 2 | 2 |
+| Honesty about limits | 2 | 1 | 1 | 0 |
+| Scope and clarity | 2 | 2 | 1 | 1 |
+| **Total** | **12/12** | **11/12** | **10/12** | **9/12** |
+
+**Direction derivation: the gate works.** Both new arms stated the money direction correctly, each with the derivation inline ("charged $80, policy … = $120, so the system undercharged by $40"; "they still owe $40.00 ($120 policy total − $80 charged)"). Both old arms inverted it ("refund", "customer is owed"). The defect class that survived the prose rule in 3 of 5 prior suite runs did not appear once under the derivation form. The judge derived ground truth before reading any reply and replayed every quoted test run; all four red legs verified from reflogs.
+
+**Behavior-delta slot: partial.** alder filled the slot and was the only submission of four to disclose the reversed-range change from the clamp removal correctly (though it wrote "none found" on the delta line while disclosing the delta one line below — loose phrasing, full disclosure). hazel wrote free-form verification prose without reproducing the template block and stayed silent on the delta, scoring 1 like old-arm maple. The slot helps when the template is used; nothing yet forces the template to be reproduced verbatim. If the class recurs, the next structural step is making verify-this's output block a checklist the Ship reply must embed.
+
+**No regression:** criteria 1–4 at 2/2 across all four arms, and the blind ranking put both new arms above both old arms. **Promoted.** Caveats: N=2 per variant, one task, one fixture; old-arm replies reused from run 3 (same prompt, same fixture) rather than re-run.
