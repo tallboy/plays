@@ -67,6 +67,8 @@ Execution:
 Evidence:
 <metric/artifact>: baseline=<...>, treatment=<...>, delta=<...>, threshold=<...>
 
+Behavior delta: <every behavior change beyond the claimed fix, each with its direction; "none" only after probing for one>
+
 Still unexercised: <edge cases untested, load unsimulated, environments not run>
 
 Reasoning: <one tight paragraph naming the evidence and any confounds>
