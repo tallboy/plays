@@ -94,3 +94,17 @@ Change under test, motivated by run 3's confirmed regression: verify-this's outp
 **Behavior-delta slot: partial.** alder filled the slot and was the only submission of four to disclose the reversed-range change from the clamp removal correctly (though it wrote "none found" on the delta line while disclosing the delta one line below — loose phrasing, full disclosure). hazel wrote free-form verification prose without reproducing the template block and stayed silent on the delta, scoring 1 like old-arm maple. The slot helps when the template is used; nothing yet forces the template to be reproduced verbatim. If the class recurs, the next structural step is making verify-this's output block a checklist the Ship reply must embed.
 
 **No regression:** criteria 1–4 at 2/2 across all four arms, and the blind ranking put both new arms above both old arms. **Promoted.** Caveats: N=2 per variant, one task, one fixture; old-arm replies reused from run 3 (same prompt, same fixture) rather than re-run.
+
+---
+
+# Run 5 — shopcart, 2026-09-02 (Ship embeds the verify-this block: NOT promoted)
+
+Change under test, motivated by run 4's partial result: Ship's `## Verification` section opens with the verify-this output block copied verbatim, and the requirement travels to wherever the delivery lands (PR body, handoff file, or the reply when no PR opens). Two fresh suite arms (laurel, juniper) ran the edited suite; a fresh Opus judge scored them blind in one pass with run 4's arms (hazel, alder), variants unlabeled.
+
+| Criterion | hazel (old) | alder (old) | laurel (new) | juniper (new) |
+|---|---|---|---|---|
+| Totals /12 | 11 | 12 | 11 | 12 |
+
+Old arms 23, new arms 23 — a tie, and on the targeted mechanism the rule underperformed. Block presence (judge's factual observation): juniper full, alder near-full *without* the rule, hazel partial, and laurel — running *with* the rule — none at all: free-form bullets, no verdict line, no Behavior delta, the clamp change misstated as "redundant"/"same-day only", and commits landed directly on `main` against Ship's explicit instruction. The mechanism finding: an agent that under-reads Ship is not bound by one more sentence in Ship; block production correlates with how thoroughly the candidate engaged verify-this, not with the embed sentence. All four arms again derived the money direction correctly — the run-4 derivation gate held at 6/6 arms since promotion.
+
+**Verdict: NOT VERIFIED; not promoted.** The ship.md edit is reverted; this record is the only artifact. If the free-form escape recurs in practice, the next candidate is structural placement the skipping agent can't route around — the router's "The reply" contract (read before any playbook) requiring the block whenever verify-this ran, rather than Ship's description section, which the no-remote path under-reads. Caveats: N=2 per variant, one task; old-arm replies reused from run 4.
