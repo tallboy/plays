@@ -32,7 +32,7 @@ done
 tmp=$(mktemp -d)
 mkdir -p "$tmp/skills"
 cp -r plays/go-tallboy plays/principles/principle-* "$tmp/skills/"
-cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue "$tmp/skills/"
+cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue plays/context-budget plays/strategic-compact plays/security-scan "$tmp/skills/"
 for d in "$tmp/skills"/*/; do
   base=$(basename "$d")
   [ "$base" = "go-tallboy" ] && continue
@@ -72,10 +72,16 @@ ph=$(grep -rnE '\bTODO\b|\bPLACEHOLDER\b|\(add [a-z ]* here\)' plays/ || true)
 # --- 7. Token ratchet: no skill file grows past the limit without a
 #        deliberate bump here. History: 1600 at creation; 1800 on 2026-08-26
 #        when the router gained the project-layer and pipeline-mode sections;
-#        1820 on 2026-09-02 when the router gained the file-issue trigger.
+#        1820 on 2026-09-02 when the router gained the file-issue trigger;
+#        1900 on 2026-09-15 when the router gained the context-budget,
+#        strategic-compact, and security-scan triggers; 1920 on 2026-09-15
+#        when the router and author-skills gained the OBSERVED-FAILURES.md
+#        remember step (evals/BASELINE.md Run 7); 2000 on 2026-09-16 when
+#        the router gained the mandatory review and improve gates
+#        (evals/BASELINE.md Run 8).
 while read -r words f; do
   [ "$f" = "total" ] && continue
-  if [ "$words" -gt 1820 ]; then err "$f is $words words (>1820) — trim it or raise this ratchet deliberately"; fi
+  if [ "$words" -gt 2000 ]; then err "$f is $words words (>2000) — trim it or raise this ratchet deliberately"; fi
 done < <(find plays -name '*.md' -exec wc -w {} + | awk '{print $1, $2}')
 
 if [ "$fail" -eq 0 ]; then echo "OK: all checks passed"; else exit 1; fi

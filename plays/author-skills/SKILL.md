@@ -7,7 +7,7 @@ description: "Use when writing a new skill, playbook, or principle, or editing a
 
 A skill is a claim that specific words change agent behavior. Author it like an experiment: observe the failure first, write against the transcript, prove the change blind before promoting it.
 
-**Baseline first.** Before writing, capture the failure without the skill: run the scenario on a fresh agent and transcribe what it actually does — including its rationalizations, verbatim. Write against those transcripts, not against the failure you imagine; the rationalizations are the spec. Editing carries the same contract: reproduce the failure the edit targets before touching the text.
+**Baseline first.** Before writing, capture the failure without the skill: run the scenario on a fresh agent and transcribe what it actually does — including its rationalizations, verbatim. Write against those transcripts, not against the failure you imagine; the rationalizations are the spec. Editing carries the same contract: reproduce the failure the edit targets before touching the text. Check `.claude/skills/OBSERVED-FAILURES.md` first if it exists — a repo that's been running the suite a while may already have a logged correction there, with its failure mode and rule already named, covering what you'd otherwise have to reproduce from scratch.
 
 **Match the form to the failure.** The form that fixes one failure type backfires on another:
 

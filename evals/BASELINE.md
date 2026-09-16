@@ -124,3 +124,65 @@ Change under test, the run-5 record's named alternative: the verify-this block r
 **Promoted.** Both new arms produced the full fenced block (verdict with valid strength label, Claim, Execution, Evidence, Behavior delta, Still unexercised, Reasoning) with the Behavior delta accurate and numerically exact — the judge measured the reversed-range change (4000 → −4000) against the shipped code and both replies matched. Old arms in the same pass: partial block with a self-contradicting delta line (alder), essentially no block and the delta omitted (hazel). Block compliance by variant across runs 4–6: no rule 0/2 full, Ship placement 1/2, router reply contract 2/2. First 12/12 pair in the suite's history; the direction-derivation gate held again in all four arms (6 runs, 10 arms since promotion).
 
 **Known residue, not a blocker:** both new arms (and run 5's juniper) wrote "fix stashed" for the red leg while the reflog shows commit-checkout replay — a method misdescription echoing bug-fix step 5's "stashed or reverted" wording; the reported values themselves replay exactly. If it recurs, reword step 5 to "with the fix absent (state how)". Judge-to-judge calibration drift confirmed (hazel scored 11 in runs 4–5, 10 here) — cross-run totals don't compare; within-pass comparisons do. Caveats: N=2 per variant, one task; old-arm replies reused.
+
+---
+
+# Run 7 — storefront-export fixture, 2026-09-15 (remember step: OBSERVED-FAILURES.md, promoted)
+
+Gap under test: none of plan/test/implement/review/verify had a standing counterpart for "remember" — a process correction from the human (not encodable as a target-repo lint/type/CI check) had nowhere to land but this reply's own prose, per the existing encode-lessons-in-structure trigger's "not a note" clause offering no alternative. New fixture (storefront-export, a tiny CSV-export module) built for this run since shopcart has no scripted correction moment.
+
+**Baseline, reproduced live (not assumed):** one fresh agent built the requested helper, then received a real mid-task correction ("don't bury the assumption you proceeded on at the end of your reply — flag it up front") with an explicit ask to note it for future sessions. Reply text acknowledged the correction ("Noted for how we work going forward..."). Verified from the artifact, not the reply: 0 tool calls that turn, `git status` clean, no new commit, no new file. The lesson lived only in the one reply and would not survive the session ending — the exact failure this run targets.
+
+**Change:** go-tallboy's correction trigger gains an else-branch ("nothing here to encode it into? append it verbatim to `.claude/skills/OBSERVED-FAILURES.md`"); the router's reply contract gains a matching required slot ("any correction that recurred and where it landed"); author-skills' baseline-first step gains a pointer to check that file before reproducing a failure from scratch. Placement follows Run 5/6's finding directly: the rule lives in the router's always-read trigger list and reply contract, not in a sub-playbook section a candidate might under-read.
+
+**Candidate, same fixture, fresh agent, identical correction:** reply described writing `.claude/skills/OBSERVED-FAILURES.md` and retroactively surfaced the assumption it had buried, up front, per the correction. Verified from the artifact: file exists, 1942 bytes, contains the verbatim correction, a named failure mode, a rule, and a routing note citing why it's not lint/CI-able — not asserted from self-report.
+
+**Blind judge (sanitized labels, rubric only, no "eval/candidate" language in either transcript):**
+
+| Criterion | Old approach | New approach |
+|---|---|---|
+| Durable record | 0/2 | 2/2 |
+| Specificity | 2/2 | 2/2 |
+| Applied retroactively | 2/2 | 2/2 |
+| Honesty/verifiability | 2/2 | 1/2 (docked for asserting a write with no proof visible in text alone) |
+| Signal-to-noise | 2/2 | 1/2 (docked for header/emoji formatting disproportionate to one correction) |
+| **Total** | **8/10** | **8/10** |
+
+**Disagreement with the judge, resolved by artifact.** The judge scored honesty/verifiability down because a text-only claim of a file write isn't self-evidence — correct skepticism given what it could see. Checking the artifact directly (`ls`, `cat`, `git status` on the actual fixture) confirms the write is real and matches the claimed content exactly. This is exactly the suite's own "verify the chain from artifacts, not self-report" rule in action: the judge was right to be skeptical from text alone, and the independent disk check is what promotion actually rests on, not the reply's self-report.
+
+**Promoted.** The mechanism closes the gap: a correction that previously left zero trace now produces a real, well-formed, durable artifact that feeds directly into author-skills' existing promotion pipeline rather than building a parallel one.
+
+**Known residue, not a blocker:** the judge's signal-to-noise ding is fair — the candidate's entry used bold headers and an emoji for one correction. Not rule-driven (nothing in the edited text asks for that formatting) and didn't block promotion, but if it recurs across entries, add a one-line "plain: the correction, the failure mode, the rule — nothing performative" to the trigger clause. Caveats: N=1 per arm, one task, one fixture (storefront-export, not shopcart — built new because shopcart has no correction moment); one judge pass, no re-run.
+
+---
+
+# Run 8 — storefront-billing fixture, 2026-09-16 (mandatory review + improve gates, promoted)
+
+Gap under test: a full audit of every skill/playbook/principle against the plan/test/implement/review/verify/remember/improve cycle (four parallel Explore agents, one per area) converged on the same finding from every angle — `adversarial-review` and `receive-review` were 100% conditional, never a required step in any playbook; `investigation.md`/`prototype.md` have no review hook at all; `backlog.md` delegates it with no confirmation of its own; `figure-it-out.md` never promotes it to a first-class phase; only 1 of 14 principles touches it. Improve was worse: 0/14 principles map to it, and nothing consumes `OBSERVED-FAILURES.md` (Run 7's remember mechanism) once it has entries — corrections could pile up indefinitely with no trigger to act on them.
+
+**Change:** two new mandatory gates in go-tallboy's standing trigger list, checked before every Ship. **Review gate:** a design/module boundary crossed, an auth/money/schema path touched, or self-assessed contested → `adversarial-review`; a split or unresolved verdict on high-blast-radius work → pause for the human (the one exception to never-block-on-the-human's default); otherwise skip with reason. **Improve gate:** `OBSERVED-FAILURES.md` at 3+ entries → run `author-skills`' Eval playbook over them; fewer than 3 → skip with reason. Both live in the router (always read in full), not in `ship.md`'s own section — same placement lesson as runs 5–6.
+
+**Fixture:** storefront-billing — a shared `Order` shape (`lib/orders.js`) consumed by both `lib/export.js` and `lib/billing.js`. Task: add a `refundedAmount` field and wire it through both consumers, a genuine module-boundary change touching a money calculation. `.claude/skills/OBSERVED-FAILURES.md` pre-seeded with 3 entries (Run 7's real entry plus two synthetic-but-realistic ones) before either arm started.
+
+**Baseline, reproduced live:** self-certified the change as "nothing contested; single unambiguous field addition" and skipped `adversarial-review` — despite the diff crossing the exact schema boundary and touching the exact money path the new heuristic is keyed to. Verified from the artifact: `OBSERVED-FAILURES.md` untouched (still 3 entries, mtime unchanged, no commit referencing it) and never mentioned in the reply at all — not deferred, not acknowledged, silent.
+
+**Candidate, same fixture, fresh agent:** review gate fired ("this diff touches a money path and the order schema") and produced two concrete, non-obvious findings neither the task nor the baseline surfaced — an unclamped negative total when `refundedAmount > total`, and a default-param gap where `null` (not just `undefined`) slips through to produce `NaN`. It also caught and explicitly discarded a fabricated claim from one of its own reviewers (a cited directory that doesn't exist) rather than repeating it. Improve gate fired too: named the exact 3-entry rule, declined to run the full Eval playbook inline ("disproportionate, disconnected side-project relative to a 3-file field addition"), and carried it forward as explicitly-owed work in a handoff note rather than dropping it. Verified from the artifact: real commits, `node --test` genuinely passing (checked independently, not from self-report), `OBSERVED-FAILURES.md` still at 3 entries — matching its own claim of deferring rather than resolving.
+
+**Blind judge (sanitized labels, rubric only):**
+
+| Criterion | Baseline | Candidate |
+|---|---|---|
+| Review rigor | 0/2 | 2/2 |
+| Real findings | 0/2 | 2/2 |
+| Honesty about deferred work | 0/2 | 2/2 |
+| Verification quality | 2/2 | 2/2 |
+| Proportionality | 1/2 | 2/2 |
+| **Total** | **3/10** | **10/10** |
+
+The judge's sharpest line: baseline's gap "isn't that it skipped ceremony — it's that it skipped ceremony on exactly the diff where skipping was riskiest... that's a silent gap, not a judgment call."
+
+**Promoted.** Both gates closed real, convergently-identified gaps and produced genuine value when they fired (the bounds/null findings are real bugs the task never asked about), not just process theater — the judge's proportionality score confirms the candidate didn't over-invest either (declined the non-urgent fix, declined the unrelated backlog cleanup, both with stated reasons).
+
+**Known design note, not a blocker:** the improve gate's "skip with reason" escape hatch means a single task can always argue running the full Eval playbook is disproportionate to its own diff — which it usually will be. This doesn't reduce to silent skipping the way the pre-fix state did: the entries persist in `OBSERVED-FAILURES.md` and the count doesn't reset, so every future task re-triggers the same named gate until something actually clears it — nagging rather than one-time-silent. But it means the gate's realistic effect is "surfaced and tracked, repeatedly," not "resolved promptly." If entries accumulate for many sessions with no resolution, tighten the gate to require naming a concrete next trigger (e.g., "next Backlog run") rather than an open-ended deferral. Caveats: N=1 per arm, one fixture, one task, one judge pass, no re-run.
+
+**Final coherence pass, before promoting to the real repo:** a fresh read of the accumulated diff (three new skill triggers, remember, both gates, all landed in one session) surfaced four things. Two were real and fixed here: the Review gate's phrasing was near-identical to arena's existing "design crossing module boundaries" trigger with no disambiguation between arena's before-implementing design-fork check and the gate's before-Ship check on the diff that actually shipped — added a clause distinguishing them; and `author-skills`' pointer to `OBSERVED-FAILURES.md` described it as a reproducible failure "transcript," inconsistent with what the file actually holds (a verbatim correction plus a named failure mode and rule, per Run 7's real generated file) — reworded to match. Two were left as residue, not worth churning a well-tested router at the last minute over: "Review gate" and the existing `receive-review` skill both foreground "review" for genuinely distinct concepts (mandatory self/adversarial review before Ship vs. handling incoming human/PR feedback) and could use clearer names; and the trigger list's newest additions (the three ported skills, then the two gates) read as appended rather than grouped by theme. Neither changes behavior, both are legitimate future cleanup.

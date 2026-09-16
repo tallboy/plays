@@ -19,7 +19,7 @@ Remaining triggers — these fire regardless of which playbook matched:
 
 - Any code → name the data shape first, and choose its organizing structure per **principle-model-the-domain**.
 - A design decision with no precedent in the codebase, or a design crossing module boundaries → the **arena** skill before implementing.
-- "Review this", a contested design, or any pre-merge review → the **adversarial-review** skill.
+- **Review gate, mandatory before Ship** (distinct from arena's before-implementing design-fork check — this evaluates the diff you actually shipped). A design/module boundary crossed in that diff, an auth/money/schema path touched, or the change is self-assessed contested → the **adversarial-review** skill; a split or unresolved verdict on high-blast-radius work → pause for the human (the one exception to never-block-on-the-human's default). None of these → skip with reason, never silently.
 - "Verify", "prove it", "did this fix it", or any claim about behavior or performance → the **verify-this** skill. Its verdicts (VERIFIED / NOT VERIFIED / INCONCLUSIVE) are the only currency; inconclusive is not a pass, and gates report outcomes, not command names.
 - The repo has no scripted way to drive its real surface → the **bootstrap-verify** skill, before trusting any "verified" claim about UI or interactive behavior.
 - About to ask the human "which approach?" or "what should this do?" → classify the question first. If the answer is observable by running something, it is not the human's to answer: route to the Prototype playbook and let the result decide. Reserve questions for genuine product or preference calls no experiment can settle (**principle-never-block-on-the-human**).
@@ -28,8 +28,12 @@ Remaining triggers — these fire regardless of which playbook matched:
 - Writing or editing a skill, playbook, or principle → the **author-skills** skill; no promotion without the Eval playbook.
 - Any prose surface a person will read (PR body, issue, docs, the reply itself) → the **unslop** skill, applied at generation time, not as cleanup.
 - Filing a bug or feature request, or an existing issue too vague to route → the **file-issue** skill. Backlog's binding Acceptance Criteria and Out of Scope don't exist unless something wrote them.
-- A correction from the human that could recur → route it per **principle-encode-lessons-in-structure**: push it into a type, lint, or CI check, not a note.
+- A correction from the human that could recur → route it per **principle-encode-lessons-in-structure**: push it into a type, lint, or CI check. Nothing here to encode it into? Append it verbatim to `.claude/skills/OBSERVED-FAILURES.md` before ending the reply — a correction that lives only in this reply's text does not survive the session.
+- **Improve gate, mandatory before Ship.** `.claude/skills/OBSERVED-FAILURES.md` at 3 or more entries → run **author-skills**' Eval playbook over them, promoting or archiving what's addressed; fewer than 3 → skip with reason.
 - Broken skill or gate mid-task → fix it in its own change. Don't block on it; don't silently work around it.
+- Context filling up, or about to add another skill/agent/MCP server → the **context-budget** skill: audits token overhead and reports prioritized savings.
+- A session nearing a context limit, or crossing a research/plan/implement/debug phase boundary → the **strategic-compact** skill, before relying on auto-compaction.
+- Auditing `.claude/settings.json`, `CLAUDE.md`, MCP config, hooks, or agent files for security risk → the **security-scan** skill.
 
 ## Principles index
 
@@ -96,6 +100,6 @@ A pure docs, copy, or config edit needs no playbook: make the change, run the ga
 
 ## The reply
 
-Lead with the outcome. Keep every section the playbook's reply names: what you built or found, the principles cited with the decisions they drove, the gates run with their outcomes, skipped steps still visible, what's still open, and any real risk. Paste verification evidence verbatim — and when verify-this ran, its full output block, copied as produced; free-form prose does not replace the block. Never fabricate a link, citation, or reference. If you think the approach is wrong, say so.
+Lead with the outcome. Keep every section the playbook's reply names: what you built or found, the principles cited with the decisions they drove, the gates run with their outcomes, skipped steps still visible, any correction that recurred and where it landed, what's still open, and any real risk. Paste verification evidence verbatim — and when verify-this ran, its full output block, copied as produced; free-form prose does not replace the block. Never fabricate a link, citation, or reference. If you think the approach is wrong, say so.
 
 Before sending, audit the reply against the artifacts: every factual claim traces to something produced this session — an output, a diff, a test run. Cut or hedge what doesn't. Any direction-of-benefit claim (who owes whom, who gains, which way a number moved) is written as an inline derivation from the evidence — "paid $80, policy says $120 → customer owes $40" — never as a bare conclusion; an inverted aside sends the reader the wrong way with full confidence.
