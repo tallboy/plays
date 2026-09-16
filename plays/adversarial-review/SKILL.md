@@ -24,6 +24,8 @@ Launch at least two reviewers in parallel, read-only, each with the same diff, t
 
 Scale up (extra reviewers, extra lenses like performance or API compatibility) when the change is large or the user asks for thoroughness.
 
+If a requested model is unresolvable when spawning a reviewer, check the spawn error for valid slugs, pick the closest equivalent (prefer the highest reasoning tier of the same family), and continue — don't block the review on a slug mismatch.
+
 **Calibration guards — include these in every reviewer's prompt:**
 
 - **Only the diff.** Report issues in code being added or modified. Do not report pre-existing problems in untouched code (note them separately at most).
