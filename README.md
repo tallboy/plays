@@ -27,6 +27,9 @@ plays/
 ├── context-budget/       Token audit across agents/skills/MCP/rules → prioritized savings
 ├── strategic-compact/    Phase-boundary decision table for when to /compact
 └── security-scan/        AgentShield audit of .claude/ config for secrets, injection, over-grants
+
+templates/
+└── OBSERVED-FAILURES.md  Seed for the remember step's log; the improve gate counts its entries
 ```
 
 ## What each skill does
@@ -99,7 +102,11 @@ cp -r plays/go-tallboy plays/principles/principle-* .claude/skills/
 cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena \
       plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue \
       plays/context-budget plays/strategic-compact plays/security-scan .claude/skills/
+cp -n templates/OBSERVED-FAILURES.md .claude/skills/
 ```
+
+The log copies with `-n` on purpose: re-running this to upgrade must not wipe the
+corrections a repo has accumulated.
 
 **Globally** (every repo on the machine) — same command against `~/.claude/skills/`:
 
@@ -136,7 +143,9 @@ A repo makes the suite its own with one extra skill: `.claude/skills/project-con
 
 ## Vendoring
 
-Installs are copies, and copies diverge. The expected divergence is reference-targets only — a copied skill pointing at the host repo's own verify skill or command names instead of a sibling that wasn't copied. Record each retarget in the copy's commit message so it survives an upgrade. To upgrade: re-copy from this repo, reapply the recorded retargets, and if the change touched the router or a principle, rerun the eval (`evals/`) and compare against `evals/BASELINE.md`.
+Installs are copies, and copies diverge. The expected divergence is reference-targets only — a copied skill pointing at the host repo's own verify skill or command names instead of a sibling that wasn't copied. Record each retarget in the copy's commit message so it survives an upgrade. To upgrade, start with `bash scripts/sync.sh <repo-or-skills-dir>`: it reports every skill as same / differs / missing, prints the differing lines so a deliberate retarget is distinguishable from upstream drift, names the project-local skills it does not manage, and fails loud on a router reference with no skill behind it. It is read-only and prints the `cp` commands rather than running them, because a blind re-copy clobbers retargets. Exit codes: 0 in sync, 1 drift, 2 dangling references, 64 usage.
+
+Then re-copy, reapply the recorded retargets, and if the change touched the router or a principle, rerun the eval (`evals/`) and compare against `evals/BASELINE.md`.
 
 ## Checks
 
