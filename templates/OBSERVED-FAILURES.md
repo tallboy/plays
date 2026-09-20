@@ -8,6 +8,11 @@ into, it gets appended below, verbatim, before the reply ends.
 The improve gate counts the `##` entries: at 3 or more, `author-skills`' Eval playbook
 runs over them before the next Ship, promoting or archiving what's addressed.
 
+This log is **per-repo**, including when the suite itself is installed globally in
+`~/.claude/skills/`. A correction belongs to the repo it happened in, and the gate counts
+that repo's entries — a shared machine-wide log would fire the gate in a repo that never
+earned it.
+
 Entry shape — one `##` per correction:
 
 ```

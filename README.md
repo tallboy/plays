@@ -85,7 +85,7 @@ Every unit of work that goes through the skill chain closes plan → test → im
 | Implement | Playbook steps of feature/bug-fix/refactor | Required step, smallest change the evidence justifies |
 | Review | **Review gate**, mandatory before Ship | A design/module boundary crossed, an auth/money/schema path touched, or self-assessed contested → `adversarial-review`; a split or unresolved verdict on high-blast-radius work → pause for the human. Otherwise skip with a real, visible reason — never silently |
 | Verify | `verify-this` / `bootstrap-verify` | Required step; global router trigger; VERIFIED/NOT VERIFIED/INCONCLUSIVE is the only currency |
-| Remember | `.claude/skills/OBSERVED-FAILURES.md` | A correction with nothing to encode into repo structure gets appended verbatim before the reply ends — it does not survive only in the reply's text |
+| Remember | the repo's `.claude/skills/OBSERVED-FAILURES.md` | A correction with nothing to encode into repo structure gets appended verbatim before the reply ends — it does not survive only in the reply's text |
 | Improve | **Improve gate**, mandatory before Ship | `OBSERVED-FAILURES.md` at 3+ entries → run `author-skills`' Eval playbook over them, or skip with a real, visible reason naming when it'll happen instead |
 
 Review and improve are gates, not skills you invoke by name — they're standing checks the router runs before every Ship, each with a real predicate and a required, visible skip. The point of a gate over a trigger phrase like "if contested" is that it doesn't rely on the agent doing the work to notice it's the one being graded.
@@ -117,6 +117,11 @@ cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/ar
       plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue \
       plays/context-budget plays/strategic-compact plays/security-scan ~/.claude/skills/
 ```
+
+The global install deliberately does **not** copy `OBSERVED-FAILURES.md`. Corrections
+belong to the repo they happened in, and the improve gate counts that repo's entries —
+so the log is seeded per-repo (`cp -n templates/OBSERVED-FAILURES.md .claude/skills/`)
+even when everything else is global.
 
 Skills reference each other by name only, never by relative path, so any subset installs cleanly — the router alone is useful, and each workhorse skill stands on its own. Two things stay per-repo regardless of a global install: the `verify-<repo>` skill that bootstrap-verify generates, and the `project-conventions` skill described under Project layer. Then invoke `/go-tallboy` at the start of a task, or any skill directly.
 
