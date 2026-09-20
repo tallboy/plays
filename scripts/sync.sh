@@ -98,9 +98,13 @@ for d in "$skills"/*/; do
 done
 [ "$local_found" -eq 1 ] || echo "  (none)"
 
-# --- the remember step's log ---
+# --- the remember step's log, which is per-repo even under a global install ---
 echo
-if [ -f "$skills/OBSERVED-FAILURES.md" ]; then
+if [ "$skills" = "$HOME/.claude/skills" ]; then
+  echo "== OBSERVED-FAILURES.md: not expected here =="
+  echo "  this is the global install; the log lives in each repo's .claude/skills/"
+  [ -f "$skills/OBSERVED-FAILURES.md" ] && echo "  WARNING: one exists here anyway — corrections from every repo would pool into it"
+elif [ -f "$skills/OBSERVED-FAILURES.md" ]; then
   entries=$(grep -c '^## ' "$skills/OBSERVED-FAILURES.md" || true)
   echo "== OBSERVED-FAILURES.md: present, $entries entr$([ "$entries" = 1 ] && echo y || echo ies) =="
   [ "$entries" -ge 3 ] && echo "  improve gate fires at 3+ — run author-skills' Eval playbook before the next Ship"
