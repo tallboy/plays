@@ -47,14 +47,30 @@ canon() {
 # sort early. Every managed skill got reported project-local before this.
 CANON_NAMES=" $(canon | while read -r d; do printf '%s ' "$(basename "$d")"; done)"
 
-same=0; differs=0; missing=0
+same=0; differs=0; missing=0; global=0
 differs_list=""; missing_list=""
+
+# A project that relies on the global install has no local copy, and that is not
+# the same as a broken one. Only meaningful when the target isn't itself global.
+GLOBAL_SKILLS="$HOME/.claude/skills"
+[ "$skills" = "$GLOBAL_SKILLS" ] && GLOBAL_SKILLS=""
+
+# A reference resolves if the skill is installed locally or globally.
+have() { [ -d "$skills/$1" ] || { [ -n "$GLOBAL_SKILLS" ] && [ -d "$GLOBAL_SKILLS/$1" ]; }; }
 
 echo "== managed skills =="
 while read -r src; do
   name="$(basename "$src")"
   dst="$skills/$name"
-  if [ ! -d "$dst" ]; then
+  if [ ! -d "$dst" ] && [ -n "$GLOBAL_SKILLS" ] && [ -d "$GLOBAL_SKILLS/$name" ]; then
+    if diff -rq "$src" "$GLOBAL_SKILLS/$name" >/dev/null 2>&1; then
+      printf '  global   %s\n' "$name"
+    else
+      printf '  global*  %s  (global copy differs from plays)\n' "$name"
+      global_stale=$((${global_stale:-0} + 1))
+    fi
+    global=$((global + 1))
+  elif [ ! -d "$dst" ]; then
     printf '  MISSING  %s\n' "$name"
     missing=$((missing + 1)); missing_list="$missing_list $src"
   elif diff -rq "$src" "$dst" >/dev/null 2>&1; then
@@ -117,19 +133,20 @@ fi
 # --- a router naming a skill that isn't installed is a broken install ---
 dangling=0
 router="$skills/go-tallboy/SKILL.md"
+[ -f "$router" ] || [ -z "$GLOBAL_SKILLS" ] || router="$GLOBAL_SKILLS/go-tallboy/SKILL.md"
 echo
 echo "== router references =="
 if [ ! -f "$router" ]; then
   echo "  (no router installed — skipping)"
 else
   for s in $(grep -oE '\*\*[a-z][a-z-]*\*\* skill' "$router" | sed 's/\*\*//g;s/ skill//' | sort -u); do
-    [ -d "$skills/$s" ] || { printf '  DANGLING skill      %s\n' "$s"; dangling=$((dangling + 1)); }
+    have "$s" || { printf '  DANGLING skill      %s\n' "$s"; dangling=$((dangling + 1)); }
   done
   for p in $(grep -oE 'principle-[a-z][a-z-]*' "$router" | sort -u); do
-    [ -d "$skills/$p" ] || { printf '  DANGLING principle  %s\n' "$p"; dangling=$((dangling + 1)); }
+    have "$p" || { printf '  DANGLING principle  %s\n' "$p"; dangling=$((dangling + 1)); }
   done
   for pb in $(grep -oE 'playbooks/[a-z-]+\.md' "$router" | sort -u); do
-    [ -f "$skills/go-tallboy/$pb" ] || { printf '  DANGLING playbook   %s\n' "$pb"; dangling=$((dangling + 1)); }
+    [ -f "$(dirname "$router")/$pb" ] || { printf '  DANGLING playbook   %s\n' "$pb"; dangling=$((dangling + 1)); }
   done
   [ "$dangling" -eq 0 ] && echo "  all resolve"
 fi
@@ -137,7 +154,10 @@ fi
 # --- verdict ---
 echo
 echo "== summary =="
-echo "  $same same · $differs differs · $missing missing · $dangling dangling"
+line="  $same same · $differs differs · $missing missing · $dangling dangling"
+[ "$global" -gt 0 ] && line="$line · $global from global install"
+echo "$line"
+[ "${global_stale:-0}" -gt 0 ] && echo "  ${global_stale} global skill(s) differ from plays — re-run the global install (see README)"
 
 if [ "$differs" -gt 0 ] || [ "$missing" -gt 0 ]; then
   echo
