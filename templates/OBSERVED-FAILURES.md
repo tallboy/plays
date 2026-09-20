@@ -29,6 +29,16 @@ zero here would be counted as a real entry, and the gate would fire a count earl
 Keep the correction verbatim. The human's own wording is the spec `author-skills` writes
 against — a paraphrase loses the rationalization that made the failure worth recording.
 
-Archived entries move to the bottom under `# Archived` so the gate stops counting them.
+When an entry gets encoded into the repo's hard layers, record where it landed:
+
+```
+  **Encoded as:** <the check, lint, type, or test that now fails when this recurs>
+```
+
+Then move it to the bottom under `# Archived`, so the gate stops counting it. An entry
+earns that move only once something in the repo goes red when the mistake recurs — if only
+part of it is mechanised, write `**Encoded as (partial):**`, say which half is still held
+by prose, and leave the entry open where the gate can still see it. Archiving on a rule
+nothing enforces is how a log starts overstating what the repo actually catches.
 
 <!-- entries below -->

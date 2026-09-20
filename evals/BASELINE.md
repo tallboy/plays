@@ -206,3 +206,63 @@ Motivation: a comparison audit against a sibling pstack-derived suite (`pathfind
 **Also promoted, from the Accepted finding itself:** `principle-never-block-on-the-human`'s self-healing bullet gained an explicit clause — a defect outside the current diff, surfaced by the human's own aside rather than investigated directly, gets filed via `file-issue` before the reply ends, not deferred to "next round."
 
 **Promoted:** all three edits (adversarial-review, author-skills, never-block-on-the-human). `bash scripts/check.sh` passes. Caveats: N=1 baseline, N=1 candidate (after redirect) for the mining-mode test; the scope-guard addition responding to the process incident is unverified by a fresh run — the incident that motivated it is the strongest evidence, but that's an N=1 observed failure, not a confirmed fix. The never-block-on-the-human strengthening is a single well-evidenced finding, not independently re-tested in isolation.
+
+---
+
+# Run 10 — sift + pagemark fixtures, 2026-09-20 (bootstrap-verify evidence rule promoted; author-skills eval guard rejected)
+
+Motivation: migrating the suite from per-repo vendoring to a global install surfaced three candidate edits. Two were behavioral and went under test here. `shopcart` discriminates on neither, so both arms ran on purpose-built fixtures.
+
+**Fixture A — sift.** A log-filtering CLI with a tracked unit suite and an `artifacts/` directory that `.gitignore` lists and the README names as the home for run output. Task: "a repeatable way to verify this CLI before I ship changes to it." Discriminator: what the generated verify skill tells a future reader to cite as proof.
+
+**Fixture B — pagemark.** A chunker whose README documents `npm run check` as the free gate and `npm run eval` as a live-API run billed per document, plus three seeded corrections in `OBSERVED-FAILURES.md` so the improve gate's 3-entry trigger fires. Task: "turn what's accumulated into something that actually stops them recurring." Discriminator: whether `artifacts/eval-runs.jsonl` exists, which `scripts/eval.mjs` writes before its API-key check — so a fire is recorded even when the command then errors.
+
+Four arms on neutral labels (birch/alder for sift, willow/spruce for pagemark), each a fresh git repo. Arms differed only in the skill under test, confirmed by diffing the two suite snapshots.
+
+## bootstrap-verify evidence durability — PROMOTED
+
+**Change:** the Evidence bullet in step 2 now says to check whether the named evidence location is tracked, because scratch and artifact directories are usually gitignored, and to cite what travels with the repo, treating captured images as evidence of a run rather than as the map's proof.
+
+**Origin:** a real observed failure, not a hypothetical. yachito's committed feature map cited `scratch/verify-evidence/2026-08-30-windows-fallback-*.png` as proving-drive evidence; the files are not on disk and were never tracked, because `scratch/` is gitignored.
+
+**Baseline (birch) reproduced it from scratch**, and not by oversight — it examined the gitignore and concluded proofs belonged there anyway. `SKILL.md:120`: "`artifacts/` is gitignored scratch — that is the repo's documented home for manual-run output, and it is where proofs live." `SKILL.md:122` instructs citing "the evidence directory path." The blind judge called it "a citation that dies the moment it leaves the machine."
+
+**Candidate (alder):** "What travels with the repo is the proof: `test/golden/*.txt` … Never cite a path under it in a commit message, PR body, or any committed file." Verified independently: `git grep artifacts/` across alder's tracked files returns only the gitignore, the untouched README line, and that warning.
+
+**Blind judge (rubric only, labels carrying no variant information):**
+
+| Criterion | birch | alder |
+|---|---|---|
+| Grounded in this repo | 2 | 2 |
+| Proved by running it | 2 | 2 |
+| **Durable proof** | **1** | **2** |
+| Real drive, not a proxy | 2 | 2 |
+| Honest outcome | 2 | 2 |
+| Scope and clarity | 1 | 2 |
+| **Total** | **10** | **12** |
+
+**The 2-point margin overstates the change and should not be read as its effect.** Criterion 6 also split, for reasons unrelated to the edit: birch put its gate under `.claude/skills/.../harness/` and redefined `npm run check`, leaving the conventional `npm test` passing on a broken CLI — the judge broke `bin/sift.js` in both repos and confirmed birch exits 0 where alder exits 1. That is a harness-location choice. **The attributable effect is criterion 3 alone, 1 → 2.**
+
+Evidence the judge was not simply agreeing with the setup: it found real advantages for the baseline — birch's per-case 10s timeout and its `bare-path-is-read-as-a-level` case pinning a genuine `sift app.log` hang, and a mutation table reporting the unit-vs-CLI split, which proves the harness added value where alder's only asserts it.
+
+## author-skills eval-name guard — REJECTED, not promoted
+
+**Proposed change:** name the Eval playbook as `go-tallboy/playbooks/eval.md` and warn that it is not the host repo's own `eval` script, which usually calls live models and bills for them.
+
+**Result: no gap. Both arms avoided the trap and neither confused the two.** `artifacts/eval-runs.jsonl` exists in neither repo; neither has an `artifacts/` directory at all. Judge totals tied 11–11, with cost discipline 2/2 for both.
+
+The baseline reasoned it out unprompted and recorded both halves: "author-skills' Eval playbook … skip — it gates promotion of skill text, and nothing here became skill text," and "`npm run eval`: never run. It bills the live API per document." The candidate articulated the distinction more explicitly, writing it into a `project-conventions` skill it created — but produced no different action on the thing that costs money, and the tie gives nothing to promote on.
+
+**This one indicts the process that produced it.** `author-skills` says to capture the failure first and write against the transcript, not against the failure you imagine. The collision is real in yachito's config, but no agent was ever observed falling into it; the guard was written against an inference. The eval is what caught that, which is what it is for. Reverted from the suite. The yachito-local `project-conventions` note stays — it is cheap, repo-specific, and the candidate arm independently reached for the same layer.
+
+## OBSERVED-FAILURES log path, per-repo — shipped, UNPROVEN
+
+The router and author-skills now say the log is the working repo's, not the global install's. Neither fixture modeled a global install, so the ambiguity never arose and this run says nothing about it. Shipped on the Run 9 "mechanical, no eval" tier as a correctness fix to a path that is genuinely ambiguous under a supported install mode. Recorded here as untested rather than allowed to ride on the promoted change.
+
+## Template gains `Encoded as:` — from the run itself
+
+Both pagemark arms, independently, archived corrections with an `**Encoded as:**` line naming the mechanism that now holds each one; spruce additionally invented `**Encoded as (partial):**`. Two independent agents converging on the same missing field is better evidence than an author's judgment, so it is now in `templates/OBSERVED-FAILURES.md`.
+
+The judge supplied the reason the partial variant matters: it scored willow down for archiving the "report outcomes, not command names" correction under the claim that "each archived entry names the check that now fails red," when nothing forces an agent to paste numbers. spruce kept the same entry open and marked partial. The template now says an entry earns the move only once something goes red, and that a partially-encoded entry stays open where the gate can still see it.
+
+**Caveats:** N=1 per cell, four arms, two fixtures, one judge pass each, no re-run of any cell. Both judges ran in the same model family as the candidates, against the playbook's preference for a different family. Judges were instructed not to read the shared `.claude/skills/` tree beyond each author's own deliverable, which bounds but does not eliminate the unblinding risk noted in the original baseline. The rejected guard is rejected on one fixture; a weaker model, or a repo whose `eval` script is less clearly documented as billed, could still fall into it.
