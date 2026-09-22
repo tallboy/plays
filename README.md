@@ -154,7 +154,9 @@ Then re-copy, reapply the recorded retargets, and if the change touched the rout
 
 ## Checks
 
-`bash scripts/check.sh` (also CI on every push) enforces the structure: frontmatter present and trigger-form, skill names matching their dirs, the install command landing every skill one directory deep, no relative links, no dangling router references, and a per-file word ratchet. Every check encodes a failure that actually happened once.
+`bash scripts/check.sh` (also CI on every push) enforces the structure: frontmatter present and trigger-form, skill names matching their dirs, the install command landing every skill one directory deep, the remember log's template installing and reading as empty, no relative links, no dangling router references, and a per-file word ratchet. It also smoke-tests `sync.sh` against a throwaway install — that script gates upgrades, so a silent break in it is a silent break everywhere. Every check encodes a failure that actually happened once.
+
+`bash scripts/sync.sh <repo-or-skills-dir>` is the other half: it reports what a given install has drifted to, rather than what this repo's own structure looks like. See Vendoring.
 
 ## Provenance
 
