@@ -1,0 +1,2 @@
+{ "name": "sift", "version": "0.3.1", "type": "module", "bin": { "sift": "./bin/sift.js" },
+  "scripts": { "test": "node --test test/*.test.js", "check": "node --test test/*.test.js" } }
