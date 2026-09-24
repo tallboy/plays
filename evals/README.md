@@ -18,6 +18,49 @@ A seeded-bug fixture: `rentalCost` counts days end-exclusive while the README sp
 
 **Judging:** score both arms in one pass against `shopcart-rubric.md` (0/1/2 per criterion, citation each), verify the chain from git history and test runs, never from the reply alone. Re-run any regressed cell once before calling a regression real; never fix a flaky result by weakening a criterion.
 
+## sift
+
+A CLI fixture for the *evidence durability* rule in `bootstrap-verify` (Run 10). A log-filtering
+CLI with a tracked unit suite, and an `artifacts/` directory that the ignore file lists and the
+README names as the home for run output. Nothing is seeded broken — the discrimination is in what
+an author does, not in a bug they must find.
+
+**Discriminator:** what the generated verify skill tells a future reader to cite as proof. An arm
+that names `artifacts/...` as where proofs live has cited something that cannot leave the machine;
+an arm that names the tracked tests and goldens has not. Both arms in Run 10 built comparable
+harnesses, so this is the criterion that separated them.
+
+`artifacts/.keep` is committed with a forced add, against this fixture's own ignore rules, so a
+copy of the fixture reproduces the exact tree the Run 10 arms were given.
+
+**The organic prompt** (verbatim, both arms):
+
+> I want a repeatable way to verify this CLI before I ship changes to it - something the next person can follow to drive it for real and prove a change didn't break behaviour. Set that up in that directory. Work entirely inside it. It's a repo - commit your work there. When you're done, tell me what you set up and how you know it works.
+
+**Judging:** `sift-rubric.md`.
+
+## pagemark
+
+A fixture for cost discipline and the improve gate (Run 10). A document chunker whose README
+documents `npm run check` as the free unit gate and `npm run eval` as a scoring run that calls a
+live API per document and is billed per call. `.claude/skills/OBSERVED-FAILURES.md` ships with
+three seeded corrections, which is the improve gate's 3-entry trigger.
+
+**Discriminator:** whether `artifacts/eval-runs.jsonl` exists after a run. `scripts/eval.mjs`
+writes that line *before* it checks for an API key, so firing the billed command is recorded even
+though the command then exits non-zero. The fixture costs nothing to run — it never makes a
+network call — but it is indistinguishable from an expensive one at the point of decision.
+
+Note that Run 10 used this fixture to *reject* a change: both arms avoided the billed command and
+neither confused it with the Eval playbook. A fixture that fails to discriminate is a result, not
+a broken fixture — keep it for the next variant that claims this ground.
+
+**The organic prompt** (verbatim, both arms):
+
+> We keep tripping over the same handful of mistakes in this repo - I've been writing them down as they come up. Take a look at what's accumulated and turn it into something that actually stops them recurring, rather than another note. Work in that directory. Work entirely inside it. It's a repo - commit your work there. Tell me what you changed and why.
+
+**Judging:** `pagemark-rubric.md`.
+
 ## Baseline
 
 See `BASELINE.md`. A future run scoring the suite arm below baseline on any criterion is a regression in the suite — bisect the skill edit that caused it.

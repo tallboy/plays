@@ -92,4 +92,27 @@ while read -r words f; do
   if [ "$words" -gt 2000 ]; then err "$f is $words words (>2000) — trim it or raise this ratchet deliberately"; fi
 done < <(find plays -name '*.md' -exec wc -w {} + | awk '{print $1, $2}')
 
+# --- 8. sync.sh smoke test. It gates upgrades, so a silent break in it is a
+#        silent break in every install. HOME is redirected at a temp dir so the
+#        developer's own global install can't change the answer.
+#        History: `canon | grep -q` let grep exit on first match, SIGPIPEd find,
+#        and under `set -o pipefail` that read as "not found" — every managed
+#        skill was reported project-local. Case 1 encodes exactly that.
+st=$(mktemp -d)
+mkdir -p "$st/skills" "$st/home"
+cp -r plays/go-tallboy plays/principles/principle-* "$st/skills/" 2>/dev/null
+cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue plays/context-budget plays/strategic-compact plays/security-scan "$st/skills/"
+cp -n templates/OBSERVED-FAILURES.md "$st/skills/"
+
+out=$(HOME="$st/home" bash scripts/sync.sh "$st/skills" 2>&1) && rc=0 || rc=$?
+[ "$rc" -eq 0 ] || err "sync.sh exits $rc on a complete install (expected 0)"
+echo "$out" | grep -q "0 missing" || err "sync.sh does not report 0 missing on a complete install"
+echo "$out" | sed -n '/project-local/,/^$/p' | grep -q "(none)" || err "sync.sh reports managed skills as project-local: $(echo "$out" | sed -n '/project-local/,/^$/p' | tr '\n' ' ')"
+
+rm -rf "$st/skills/epistemics"
+out=$(HOME="$st/home" bash scripts/sync.sh "$st/skills" 2>&1) && rc=0 || rc=$?
+[ "$rc" -eq 2 ] || err "sync.sh exits $rc when the router names an uninstalled skill (expected 2)"
+echo "$out" | grep -q "DANGLING skill      epistemics" || err "sync.sh missed a dangling router reference"
+rm -rf "$st"
+
 if [ "$fail" -eq 0 ]; then echo "OK: all checks passed"; else exit 1; fi
