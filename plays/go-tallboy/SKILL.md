@@ -28,8 +28,8 @@ Remaining triggers — these fire regardless of which playbook matched:
 - Writing or editing a skill, playbook, or principle → the **author-skills** skill; no promotion without the Eval playbook.
 - Any prose surface a person will read (PR body, issue, docs, the reply itself) → the **unslop** skill, applied at generation time, not as cleanup.
 - Filing a bug or feature request, or an existing issue too vague to route → the **file-issue** skill. Backlog's binding Acceptance Criteria and Out of Scope don't exist unless something wrote them.
-- A correction from the human that could recur → route it per **principle-encode-lessons-in-structure**: push it into a type, lint, or CI check. Nothing here to encode it into? Append it verbatim to `.claude/skills/OBSERVED-FAILURES.md` before ending the reply — a correction that lives only in this reply's text does not survive the session.
-- **Improve gate, mandatory before Ship.** `.claude/skills/OBSERVED-FAILURES.md` at 3 or more entries → run **author-skills**' Eval playbook over them, promoting or archiving what's addressed; fewer than 3 → skip with reason.
+- A correction from the human that could recur → route it per **principle-encode-lessons-in-structure**: push it into a type, lint, or CI check. Nothing here to encode it into? Append it verbatim to this repo's `.claude/skills/OBSERVED-FAILURES.md` before ending the reply — a correction that lives only in this reply's text does not survive the session.
+- **Improve gate, mandatory before Ship.** This repo's `.claude/skills/OBSERVED-FAILURES.md` at 3 or more entries → run **author-skills**' Eval playbook over them, promoting or archiving what's addressed; fewer than 3 → skip with reason.
 - Broken skill or gate mid-task → fix it in its own change. Don't block on it; don't silently work around it.
 - Context filling up, or about to add another skill/agent/MCP server → the **context-budget** skill: audits token overhead and reports prioritized savings.
 - A session nearing a context limit, or crossing a research/plan/implement/debug phase boundary → the **strategic-compact** skill, before relying on auto-compaction.

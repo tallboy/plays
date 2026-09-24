@@ -27,6 +27,9 @@ plays/
 ├── context-budget/       Token audit across agents/skills/MCP/rules → prioritized savings
 ├── strategic-compact/    Phase-boundary decision table for when to /compact
 └── security-scan/        AgentShield audit of .claude/ config for secrets, injection, over-grants
+
+templates/
+└── OBSERVED-FAILURES.md  Seed for the remember step's log; the improve gate counts its entries
 ```
 
 ## What each skill does
@@ -82,7 +85,7 @@ Every unit of work that goes through the skill chain closes plan → test → im
 | Implement | Playbook steps of feature/bug-fix/refactor | Required step, smallest change the evidence justifies |
 | Review | **Review gate**, mandatory before Ship | A design/module boundary crossed, an auth/money/schema path touched, or self-assessed contested → `adversarial-review`; a split or unresolved verdict on high-blast-radius work → pause for the human. Otherwise skip with a real, visible reason — never silently |
 | Verify | `verify-this` / `bootstrap-verify` | Required step; global router trigger; VERIFIED/NOT VERIFIED/INCONCLUSIVE is the only currency |
-| Remember | `.claude/skills/OBSERVED-FAILURES.md` | A correction with nothing to encode into repo structure gets appended verbatim before the reply ends — it does not survive only in the reply's text |
+| Remember | the repo's `.claude/skills/OBSERVED-FAILURES.md` | A correction with nothing to encode into repo structure gets appended verbatim before the reply ends — it does not survive only in the reply's text |
 | Improve | **Improve gate**, mandatory before Ship | `OBSERVED-FAILURES.md` at 3+ entries → run `author-skills`' Eval playbook over them, or skip with a real, visible reason naming when it'll happen instead |
 
 Review and improve are gates, not skills you invoke by name — they're standing checks the router runs before every Ship, each with a real predicate and a required, visible skip. The point of a gate over a trigger phrase like "if contested" is that it doesn't rely on the agent doing the work to notice it's the one being graded.
@@ -99,7 +102,11 @@ cp -r plays/go-tallboy plays/principles/principle-* .claude/skills/
 cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena \
       plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue \
       plays/context-budget plays/strategic-compact plays/security-scan .claude/skills/
+cp -n templates/OBSERVED-FAILURES.md .claude/skills/
 ```
+
+The log copies with `-n` on purpose: re-running this to upgrade must not wipe the
+corrections a repo has accumulated.
 
 **Globally** (every repo on the machine) — same command against `~/.claude/skills/`:
 
@@ -110,6 +117,11 @@ cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/ar
       plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue \
       plays/context-budget plays/strategic-compact plays/security-scan ~/.claude/skills/
 ```
+
+The global install deliberately does **not** copy `OBSERVED-FAILURES.md`. Corrections
+belong to the repo they happened in, and the improve gate counts that repo's entries —
+so the log is seeded per-repo (`cp -n templates/OBSERVED-FAILURES.md .claude/skills/`)
+even when everything else is global.
 
 Skills reference each other by name only, never by relative path, so any subset installs cleanly — the router alone is useful, and each workhorse skill stands on its own. Two things stay per-repo regardless of a global install: the `verify-<repo>` skill that bootstrap-verify generates, and the `project-conventions` skill described under Project layer. Then invoke `/go-tallboy` at the start of a task, or any skill directly.
 
@@ -136,7 +148,9 @@ A repo makes the suite its own with one extra skill: `.claude/skills/project-con
 
 ## Vendoring
 
-Installs are copies, and copies diverge. The expected divergence is reference-targets only — a copied skill pointing at the host repo's own verify skill or command names instead of a sibling that wasn't copied. Record each retarget in the copy's commit message so it survives an upgrade. To upgrade: re-copy from this repo, reapply the recorded retargets, and if the change touched the router or a principle, rerun the eval (`evals/`) and compare against `evals/BASELINE.md`.
+Installs are copies, and copies diverge. The expected divergence is reference-targets only — a copied skill pointing at the host repo's own verify skill or command names instead of a sibling that wasn't copied. Record each retarget in the copy's commit message so it survives an upgrade. To upgrade, start with `bash scripts/sync.sh <repo-or-skills-dir>`: it reports every skill as same / differs / missing, prints the differing lines so a deliberate retarget is distinguishable from upstream drift, names the project-local skills it does not manage, and fails loud on a router reference with no skill behind it. It is read-only and prints the `cp` commands rather than running them, because a blind re-copy clobbers retargets. Exit codes: 0 in sync, 1 drift, 2 dangling references, 64 usage.
+
+Then re-copy, reapply the recorded retargets, and if the change touched the router or a principle, rerun the eval (`evals/`) and compare against `evals/BASELINE.md`.
 
 ## Checks
 

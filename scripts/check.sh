@@ -33,6 +33,7 @@ tmp=$(mktemp -d)
 mkdir -p "$tmp/skills"
 cp -r plays/go-tallboy plays/principles/principle-* "$tmp/skills/"
 cp -r plays/verify-this plays/bootstrap-verify plays/adversarial-review plays/arena plays/unslop plays/epistemics plays/receive-review plays/author-skills plays/file-issue plays/context-budget plays/strategic-compact plays/security-scan "$tmp/skills/"
+cp -n templates/OBSERVED-FAILURES.md "$tmp/skills/"
 for d in "$tmp/skills"/*/; do
   base=$(basename "$d")
   [ "$base" = "go-tallboy" ] && continue
@@ -41,7 +42,14 @@ for d in "$tmp/skills"/*/; do
   [ -z "$nested" ] || err "installed skill '$base' hides nested SKILL.md files: $nested"
 done
 [ -f "$tmp/skills/go-tallboy/SKILL.md" ] || err "router did not install"
+[ -f "$tmp/skills/OBSERVED-FAILURES.md" ] || err "the remember step's log template did not install — the improve gate has nothing to count"
 rm -rf "$tmp"
+
+# --- 2b. The log template must not count as an entry before anyone writes one.
+#         Observed: an entry heading at column zero inside the template's example
+#         fence counted itself, so the improve gate would fire a correction early.
+seeded=$(grep -c '^## ' templates/OBSERVED-FAILURES.md || true)
+[ "$seeded" -eq 0 ] || err "OBSERVED-FAILURES.md template reads as $seeded entries while still empty — indent the example heading inside its fence"
 
 # --- 3. No relative markdown links (they break under copy-install).
 links=$(grep -rn '](\.\./' plays/ || true)
